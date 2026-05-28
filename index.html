@@ -1,0 +1,3015 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Gold 確認テスト集 - 2026/05/26</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Yu Gothic', 'Hiragino Sans', 'Meiryo', sans-serif;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    line-height: 1.75;
+    color: #2c3e50;
+    background: #fafafa;
+  }
+  header {
+    background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  header h1 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.8rem;
+  }
+  header .meta {
+    opacity: 0.9;
+    font-size: 0.95rem;
+  }
+  nav.toc {
+    background: white;
+    padding: 1.2rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    border: 1px solid #e2e8f0;
+  }
+  nav.toc h2 {
+    margin: 0 0 0.8rem 0;
+    font-size: 1.1rem;
+    color: #2c5282;
+    border: none;
+    padding: 0;
+  }
+  nav.toc ol {
+    margin: 0;
+    padding-left: 1.5rem;
+  }
+  nav.toc li {
+    margin: 0.3rem 0;
+  }
+  nav.toc a {
+    color: #2b6cb0;
+    text-decoration: none;
+  }
+  nav.toc a:hover { text-decoration: underline; }
+  h2.section-title {
+    color: white;
+    background: #2c5282;
+    padding: 1rem 1.5rem;
+    margin: 3rem 0 1.5rem 0;
+    border-radius: 8px;
+    font-size: 1.3rem;
+  }
+  article.question {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  article.question h3 {
+    margin: 0 0 1rem 0;
+    color: #2d3748;
+    font-size: 1.1rem;
+    border-bottom: 2px solid #edf2f7;
+    padding-bottom: 0.5rem;
+  }
+  .qtext {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+  }
+  pre {
+    background: #1a202c;
+    color: #e2e8f0;
+    padding: 1rem 1.2rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+    margin: 0.8rem 0;
+  }
+  code {
+    background: #edf2f7;
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+    font-size: 0.9rem;
+    color: #d53f8c;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
+    color: inherit;
+  }
+  .choices {
+    margin: 1rem 0;
+    padding: 0.8rem 1.2rem;
+    background: #f7fafc;
+    border-radius: 6px;
+    border-left: 3px solid #cbd5e0;
+  }
+  .choices ol {
+    margin: 0;
+    padding-left: 1.5rem;
+  }
+  .choices li {
+    margin: 0.4rem 0;
+  }
+  details {
+    margin-top: 1rem;
+    background: #ebf8ff;
+    border-left: 4px solid #4299e1;
+    border-radius: 6px;
+    padding: 0;
+    overflow: hidden;
+  }
+  details[open] {
+    background: #f0f9ff;
+  }
+  summary {
+    cursor: pointer;
+    font-weight: bold;
+    color: #2b6cb0;
+    padding: 0.8rem 1.2rem;
+    user-select: none;
+    list-style: none;
+    position: relative;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::before {
+    content: "▶ ";
+    display: inline-block;
+    transition: transform 0.2s;
+    margin-right: 0.4rem;
+  }
+  details[open] summary::before {
+    transform: rotate(90deg);
+  }
+  summary:hover { color: #2c5282; background: rgba(66, 153, 225, 0.1); }
+  .answer-body {
+    padding: 0 1.2rem 1.2rem 1.2rem;
+  }
+  .answer-tag {
+    display: inline-block;
+    background: #38a169;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    font-weight: bold;
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
+  }
+  .explanation { margin-top: 1rem; }
+  .explanation p { margin: 0.6rem 0; }
+  table {
+    border-collapse: collapse;
+    margin: 0.8rem 0;
+    width: 100%;
+    font-size: 0.92rem;
+  }
+  th, td {
+    border: 1px solid #cbd5e0;
+    padding: 0.5rem 0.8rem;
+    text-align: left;
+  }
+  th { background: #edf2f7; font-weight: bold; }
+  .key-point {
+    background: #fffbf0;
+    border-left: 4px solid #ed8936;
+    padding: 0.8rem 1.2rem;
+    margin: 0.8rem 0;
+    border-radius: 4px;
+  }
+  .key-point strong { color: #c05621; }
+  .topic-tag {
+    display: inline-block;
+    background: #805ad5;
+    color: white;
+    padding: 0.15rem 0.6rem;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: normal;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+  hr { border: none; border-top: 1px solid #e2e8f0; margin: 1.5rem 0; }
+  ul, ol { padding-left: 1.5rem; }
+  li { margin: 0.3rem 0; }
+  footer {
+    text-align: center;
+    color: #718096;
+    padding: 2rem 0 1rem;
+    font-size: 0.9rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Java Gold 確認テスト集</h1>
+  <div class="meta">作成日: 2026年5月26日 / 全110問（11セクション）</div>
+  <div class="meta" style="margin-top:0.5rem">クリックで解説を開閉</div>
+</header>
+
+<nav class="toc">
+  <h2>目次</h2>
+  <ol>
+    <li><a href="#sec1">Stream API + モジュール（10問）</a></li>
+    <li><a href="#sec2">File I/O 第1弾（10問）</a></li>
+    <li><a href="#sec3">File I/O 第2弾（10問）</a></li>
+    <li><a href="#sec4">File I/O 第3弾（10問）</a></li>
+    <li><a href="#sec5">File I/O 第4弾（10問）</a></li>
+    <li><a href="#sec6">並行処理 基礎（10問）</a></li>
+    <li><a href="#sec7">並行処理 応用（10問）</a></li>
+    <li><a href="#sec8">Stream API 標準（10問）</a></li>
+    <li><a href="#sec9">Stream API 仕上げ（10問）</a></li>
+    <li><a href="#sec10">モジュールコマンド（10問）</a></li>
+    <li><a href="#sec11">ジェネリクス・型消去（10問）</a></li>
+  </ol>
+</nav>
+
+<!-- ===================== Section 1 ===================== -->
+<h2 id="sec1" class="section-title">1. Stream API + モジュール</h2>
+
+<article class="question">
+<h3>Q1 <span class="topic-tag">Stream / OptionalInt</span></h3>
+<div class="qtext">次のコードを実行した結果として正しいものは？</div>
+<pre><code>OptionalInt result = IntStream.empty().reduce((a, b) -&gt; a + b);
+int value = result.orElse(0);
+System.out.println(value);</code></pre>
+<div class="choices"><ol>
+<li>0</li>
+<li>例外がスローされる</li>
+<li>何も出力されない</li>
+<li>-1</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: A</div>
+<div class="explanation">
+<p>空ストリーム + 初期値なし reduce → 空の <code>OptionalInt</code>。<code>orElse(0)</code> で 0 が返る。</p>
+<div class="key-point"><strong>覚え方:</strong> 初期値なしの reduce は OptionalInt を返す → 空なら orElse でデフォルト値。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q2 <span class="topic-tag">Stream / sorted vs min</span></h3>
+<div class="qtext">次のうち、コンパイルエラーになるものはどれか（複数選択可）</div>
+<pre><code>A. Stream.of(1, 2, 3).sorted();
+B. Stream.of("a", "b").min();
+C. Stream.of("a", "b").min(Comparator.naturalOrder());
+D. IntStream.of(1, 2, 3).min();
+E. Stream.of(1, 2, 3).max(Comparator.reverseOrder());</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B のみ</div>
+<div class="explanation">
+<p><code>Stream&lt;T&gt;</code> の <code>min()</code> / <code>max()</code> は <strong>Comparator が必須</strong>。引数なしで呼ぶとコンパイルエラー。</p>
+<table>
+<tr><th>メソッド</th><th>引数なし</th><th>Comparator あり</th></tr>
+<tr><td>Stream&lt;T&gt;.sorted()</td><td>✅（Comparable要素のみ）</td><td>✅</td></tr>
+<tr><td>Stream&lt;T&gt;.min()</td><td>❌ コンパイルエラー</td><td>✅</td></tr>
+<tr><td>Stream&lt;T&gt;.max()</td><td>❌ コンパイルエラー</td><td>✅</td></tr>
+<tr><td>IntStream.sorted()</td><td>✅</td><td>❌（引数なし版のみ）</td></tr>
+<tr><td>IntStream.min() / max()</td><td>✅</td><td>❌</td></tr>
+</table>
+<div class="key-point"><strong>メンタルモデル:</strong> sorted は引数なしOK（並べ替えはComparable前提でできる）、min/max は引数なしNG（オブジェクトは比較方法を渡さないと最小最大が決まらない）。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q3 <span class="topic-tag">Arrays.stream vs Stream.of</span></h3>
+<div class="qtext">次のコードの出力は？</div>
+<pre><code>int[] arr = {1, 2, 3};
+long count1 = Stream.of(arr).count();
+long count2 = Arrays.stream(arr).count();
+System.out.println(count1 + " " + count2);</code></pre>
+<div class="choices"><ol>
+<li>3 3</li>
+<li>1 3</li>
+<li>3 1</li>
+<li>1 1</li>
+<li>コンパイルエラー</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p><code>Stream.of(int[])</code> は <strong>Stream&lt;int[]&gt;</strong>（配列1個入ったストリーム）。<code>Arrays.stream(int[])</code> は <strong>IntStream</strong>（要素ごと展開）。</p>
+<table>
+<tr><th>呼び出し</th><th>戻り値</th></tr>
+<tr><td>Stream.of(int[])</td><td>Stream&lt;int[]&gt;（要素1個）</td></tr>
+<tr><td>Arrays.stream(int[])</td><td>IntStream（要素ごと展開）</td></tr>
+<tr><td>Stream.of(Integer[])</td><td>Stream&lt;Integer&gt;（要素ごと展開）</td></tr>
+</table>
+<div class="key-point"><strong>覚え方:</strong> プリミティブ配列 → Arrays.stream 一択。Stream.of(int[]) は要素1個の罠。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q4 <span class="topic-tag">List.of の不変性</span></h3>
+<div class="qtext">次のコードを実行した結果は？</div>
+<pre><code>List&lt;Integer&gt; list = List.of(1, 2, 3);
+list.set(0, 99);
+System.out.println(list);</code></pre>
+<div class="choices"><ol>
+<li>[99, 2, 3]</li>
+<li>[1, 2, 3]</li>
+<li>UnsupportedOperationException</li>
+<li>NullPointerException</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p><code>List.of</code> は <strong>完全イミュータブル</strong>。set/add/remove すべて <code>UnsupportedOperationException</code>。</p>
+<table>
+<tr><th>生成方法</th><th>サイズ変更</th><th>要素変更(set)</th><th>null許容</th></tr>
+<tr><td>List.of(...)</td><td>❌</td><td>❌</td><td>❌</td></tr>
+<tr><td>Arrays.asList(...)</td><td>❌</td><td>✅</td><td>✅</td></tr>
+<tr><td>new ArrayList&lt;&gt;(...)</td><td>✅</td><td>✅</td><td>✅</td></tr>
+</table>
+<div class="key-point"><strong>覚え方:</strong> List.of = 石碑、Arrays.asList = 指定席、ArrayList = 普通のリスト。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q5 <span class="topic-tag">Collectors の戻り値型</span></h3>
+<div class="qtext">次のコードの戻り値の型として正しいのは？</div>
+<pre><code>List&lt;Item&gt; items = ...;
+??? avg = items.stream().collect(Collectors.averagingInt(Item::price));</code></pre>
+<div class="choices"><ol>
+<li>int</li>
+<li>Integer</li>
+<li>double</li>
+<li>Double</li>
+<li>OptionalDouble</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: D（実用的には double にも代入可）</div>
+<div class="explanation">
+<p><code>Collectors.averagingInt</code> の戻り値は <strong>Double</strong>（ラッパー型）。プリミティブ double に代入する場合は自動 unboxing で動く。</p>
+<table>
+<tr><th>Collector</th><th>戻り値の型</th></tr>
+<tr><td>summingInt</td><td>Integer</td></tr>
+<tr><td>summingLong</td><td>Long</td></tr>
+<tr><td>summingDouble</td><td>Double</td></tr>
+<tr><td>averagingInt/Long/Double</td><td>Double（全部Double）</td></tr>
+<tr><td>counting</td><td>Long</td></tr>
+</table>
+<div class="key-point"><strong>対比:</strong> IntStream.average() は OptionalDouble、Collectors.averagingInt は Double（空でも 0.0 を返す）。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q6 <span class="topic-tag">javac -d 指定先</span></h3>
+<div class="qtext">次のディレクトリ構造で <code>com.greet</code> モジュールをコンパイルする正しいコマンドは？</div>
+<pre><code>project/
+└── src/
+    └── com.greet/
+        ├── module-info.java
+        └── com/greet/Hello.java</code></pre>
+<div class="choices"><ol>
+<li>javac -d mods src/com.greet/module-info.java src/com.greet/com/greet/Hello.java</li>
+<li>javac -d mods/com.greet --module-source-path src -m com.greet</li>
+<li>javac -d mods --module-source-path src -m com.greet</li>
+<li>javac -d mods -p src -m com.greet</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p><code>--module-source-path</code> + <code>-m</code> 方式では <code>-d</code> に <strong>親ディレクトリ</strong> を指定。javac が自動で <code>mods/com.greet/</code> を作る。</p>
+<p>B のように <code>mods/com.greet</code> まで書くと <code>mods/com.greet/com.greet/</code> と二重ネストになる罠。</p>
+<table>
+<tr><th>方式</th><th>-d に指定するもの</th></tr>
+<tr><td>ファイル明示方式</td><td>mods/com.greet（モジュール直下）</td></tr>
+<tr><td>--module-source-path + -m</td><td>mods（親ディレクトリ）</td></tr>
+</table>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q7 <span class="topic-tag">opens vs exports</span></h3>
+<div class="qtext">次の module-info.java について、外部からリフレクションで <code>com.shop.entity.User</code> の private フィールドにアクセスできるのは？</div>
+<pre><code>A. module com.shop { exports com.shop.entity; }
+B. module com.shop { opens com.shop.entity; }
+C. module com.shop { exports com.shop.entity to all; }
+D. module com.shop { requires com.shop.entity; }</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>リフレクションで private にアクセスするには <code>opens</code> が必要。<code>exports</code> では public しか触れない。</p>
+<table>
+<tr><th>修飾子</th><th>通常アクセス</th><th>リフレクション</th></tr>
+<tr><td>exports pkg</td><td>✅ public のみ</td><td>❌</td></tr>
+<tr><td>opens pkg</td><td>❌</td><td>✅ private 含む全部</td></tr>
+<tr><td>open module（モジュール全体）</td><td>exports と別途必要</td><td>✅ 全パッケージ自動 opens</td></tr>
+</table>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q8 <span class="topic-tag">provides / with</span></h3>
+<div class="qtext">サービス <code>com.api.Greeting</code> の実装 <code>com.impl.HelloImpl</code> を提供する正しい宣言は？</div>
+<pre><code>A. module com.impl { uses com.api.Greeting with com.impl.HelloImpl; }
+B. module com.impl { provides com.api.Greeting with com.impl.HelloImpl; }
+C. module com.impl { exports com.api.Greeting to com.impl.HelloImpl; }
+D. module com.impl { service com.api.Greeting impl com.impl.HelloImpl; }</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p><code>provides X with Y;</code> の構文。<code>uses</code> はコンシューマ側、<code>provides ... with ...</code> はプロバイダ側。</p>
+<table>
+<tr><th>役割</th><th>キーワード</th><th>意味</th></tr>
+<tr><td>インターフェース提供側</td><td>exports</td><td>API として公開</td></tr>
+<tr><td>実装提供側</td><td>provides X with Y</td><td>X の実装として Y を提供</td></tr>
+<tr><td>利用側</td><td>uses X</td><td>X を ServiceLoader で探す</td></tr>
+</table>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q9 <span class="topic-tag">jlink --output</span></h3>
+<div class="qtext">次の jlink コマンドを2回続けて実行するとどうなる？</div>
+<pre><code>jlink --module-path mods --add-modules com.app --output myapp
+jlink --module-path mods --add-modules com.app --output myapp</code></pre>
+<div class="choices"><ol>
+<li>2回とも成功する（上書き）</li>
+<li>1回目成功、2回目はエラー（既存ディレクトリ）</li>
+<li>2回ともエラー</li>
+<li>2回目は警告だけで成功</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p><code>jlink --output</code> は <strong>既存ディレクトリへの出力を拒否</strong>。</p>
+<table>
+<tr><th>コマンド</th><th>既存出力先</th></tr>
+<tr><td>javac -d</td><td>✅ 上書き</td></tr>
+<tr><td>jar --file=</td><td>✅ 上書き</td></tr>
+<tr><td>jlink --output</td><td>❌ エラー</td></tr>
+</table>
+<div class="key-point"><strong>実務:</strong> <code>rm -rf myapp &amp;&amp; jlink ...</code> のように事前削除が定番。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q10 <span class="topic-tag">requires の検証タイミング</span></h3>
+<div class="qtext">次の module-info.java をコンパイルすると何が起きる？（<code>com.util</code> モジュールは存在しない）</div>
+<pre><code>module com.app {
+    requires com.util;
+    exports com.app;
+}</code></pre>
+<div class="choices"><ol>
+<li>警告だけ出てコンパイル成功</li>
+<li>コンパイル成功、実行時にエラー</li>
+<li>コンパイルエラー（module com.util not found）</li>
+<li>com.util が自動で無視される</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p><code>requires</code> は <strong>コンパイル時に検証</strong>される。存在しないモジュールを require するとコンパイル時点で失敗。</p>
+<table>
+<tr><th>エラー</th><th>検出タイミング</th></tr>
+<tr><td>requires 先が存在しない</td><td>コンパイル時</td></tr>
+<tr><td>exports するパッケージが存在しない</td><td>コンパイル時</td></tr>
+<tr><td>uses 忘れて ServiceLoader.load</td><td>実行時に空が返る</td></tr>
+</table>
+</div>
+</div>
+</details>
+</article>
+
+<!-- ===================== Section 2 ===================== -->
+<h2 id="sec2" class="section-title">2. File I/O 第1弾</h2>
+
+<article class="question">
+<h3>Q1 <span class="topic-tag">Files.readAllLines</span></h3>
+<div class="qtext">次のコードを実行した結果は？（ファイル <code>data.txt</code> は存在する）</div>
+<pre><code>Path p = Path.of("data.txt");
+List&lt;String&gt; lines = Files.readAllLines(p);
+System.out.println(lines.size());</code></pre>
+<div class="choices"><ol>
+<li>0</li>
+<li>ファイルの行数</li>
+<li>コンパイルエラー</li>
+<li>IOException（チェック例外なので try-catch 必須）</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>問題は「実行結果」を聞いているのでコンパイル＆実行は通る前提。普通にファイルの行数が返る。</p>
+<p>D は「コンパイル要件」を指しており、実行結果ではない。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q2 <span class="topic-tag">Files.lines は close 必要</span></h3>
+<div class="qtext">リソースリークが発生する可能性があるのは？</div>
+<pre><code>A. List&lt;String&gt; lines = Files.readAllLines(Path.of("a.txt"));
+B. String content = Files.readString(Path.of("a.txt"));
+C. Files.lines(Path.of("a.txt")).forEach(System.out::println);
+D. try (BufferedReader br = Files.newBufferedReader(Path.of("a.txt"))) { ... }</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p><code>Files.lines</code> は Stream を返し、内部でファイルを開きっぱなし → close しないとリーク。</p>
+<table>
+<tr><th>メソッド</th><th>close 必要？</th></tr>
+<tr><td>readAllLines / readString</td><td>不要（内部で読み切ってclose）</td></tr>
+<tr><td>lines / list / walk</td><td>必要（Stream を返す）</td></tr>
+<tr><td>newBufferedReader 等</td><td>必要（try-with-resources で）</td></tr>
+</table>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q3 <span class="topic-tag">resolve(絶対パス) = 置換</span></h3>
+<div class="qtext">次のコードの出力は？</div>
+<pre><code>Path p = Path.of("/home/user/docs");
+System.out.println(p.resolve("/etc/passwd"));</code></pre>
+<div class="choices"><ol>
+<li>/home/user/docs/etc/passwd</li>
+<li>/etc/passwd</li>
+<li>/home/user/docs</li>
+<li>コンパイルエラー</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p><code>resolve</code> に絶対パスを渡すと、元のパスは捨てられて引数だけ返る。</p>
+<pre><code>base.resolve("foo")    // base/foo （結合）
+base.resolve("/foo")   // /foo    （置換）</code></pre>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q4 <span class="topic-tag">Files.copy + 既存ファイル</span></h3>
+<div class="qtext">src ファイルが既に dst に存在する場合の挙動は？</div>
+<pre><code>Files.copy(src, dst);</code></pre>
+<div class="choices"><ol>
+<li>上書きコピーされる</li>
+<li>コピーされず、何も起きない</li>
+<li>FileAlreadyExistsException がスローされる</li>
+<li>IOException がスローされる</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p>オプション無しの copy は既存ファイルを上書きしない。<code>StandardCopyOption.REPLACE_EXISTING</code> が必要。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q5 <span class="topic-tag">File と Path の橋渡し</span></h3>
+<div class="qtext">次のコードで正しいものは？</div>
+<pre><code>File f = new File("data.txt");
+???</code></pre>
+<div class="choices"><ol>
+<li>Files.readAllLines(f);</li>
+<li>Files.readAllLines(f.toPath());</li>
+<li>Files.readAllLines(Path.of(f));</li>
+<li>f.readAllLines();</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p><code>Files</code>系メソッドは <code>Path</code> しか受けない。<code>File</code> から渡すなら <code>toPath()</code> で変換。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q6 <span class="topic-tag">FileOutputStream.write は byte 専用</span></h3>
+<div class="qtext">次のコードを実行するとどうなる？</div>
+<pre><code>try (FileOutputStream fos = new FileOutputStream("out.txt")) {
+    fos.write("Hello");
+}</code></pre>
+<div class="choices"><ol>
+<li>ファイルに "Hello" が書き込まれる</li>
+<li>コンパイルエラー</li>
+<li>ファイルが空になる</li>
+<li>IOException がスローされる</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p><code>FileOutputStream.write</code> は byte 系のオーバーロードのみ。<code>write(String)</code> は存在しない。</p>
+<pre><code>write(int b)
+write(byte[] b)
+write(byte[] b, int off, int len)
+// write(String) は無い！</code></pre>
+<p>文字列を書きたいなら <code>FileWriter</code> か <code>OutputStreamWriter</code>。</p>
+<div class="key-point"><strong>覚え方:</strong> FileOutputStream はバイト用、FileWriter は文字用。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q7 <span class="topic-tag">Path メソッドの戻り値型</span></h3>
+<div class="qtext">次の Path 関連メソッドのうち、戻り値が Path 型でないものは？</div>
+<pre><code>A. Path.of("a/b/c").getParent()
+B. Path.of("a/b/c").getFileName()
+C. Path.of("a/b/c").getNameCount()
+D. Path.of("a/b/c").normalize()
+E. Path.of("/a").resolve("b")</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p><code>getNameCount()</code> だけ <code>int</code> を返す。他は全部 <code>Path</code>。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q8 <span class="topic-tag">Files.copy の使い方</span></h3>
+<div class="qtext">次の Files.copy の使い方として正しいものは（複数選択可）？</div>
+<pre><code>A. Files.copy(src, dst);
+B. Files.copy(src, dst, StandardCopyOption.REPLACE_EXISTING);
+C. Files.copy(src, dst, REPLACE_EXISTING);  // static import 済
+D. Files.copy(src, dst, true);  // 上書きフラグ
+E. Files.copy(src.toPath(), dst.toPath());  // src, dst は File</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: A, B, C, E</div>
+<div class="explanation">
+<p>D は誤り。<code>boolean</code> を取るオーバーロードは存在しない。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q9 <span class="topic-tag">オブジェクトのシリアライズ</span></h3>
+<div class="qtext">オブジェクトをファイルに書き出して読み戻すための正しい組み合わせは？</div>
+<pre><code>A. FileWriter / FileReader
+B. PrintWriter / BufferedReader
+C. ObjectOutputStream / ObjectInputStream
+D. DataOutputStream / DataInputStream</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p>オブジェクトのシリアライズは <code>ObjectOutputStream</code>、デシリアライズは <code>ObjectInputStream</code>。<code>DataOutputStream</code> はプリミティブ値専用で、オブジェクトは扱えない。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q10 <span class="topic-tag">Path.relativize</span></h3>
+<div class="qtext">次のコードの出力は？</div>
+<pre><code>Path a = Path.of("/home/user/docs/report.txt");
+Path b = Path.of("/home/user");
+System.out.println(b.relativize(a));</code></pre>
+<div class="choices"><ol>
+<li>/home/user/docs/report.txt</li>
+<li>docs/report.txt</li>
+<li>../docs/report.txt</li>
+<li>report.txt</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p><code>b.relativize(a)</code> は「b から a への相対パス」を返す。<code>/home/user</code> から <code>/home/user/docs/report.txt</code> への相対なら <code>docs/report.txt</code>。</p>
+</div>
+</div>
+</details>
+</article>
+
+<!-- ===================== Section 3 ===================== -->
+<h2 id="sec3" class="section-title">3. File I/O 第2弾</h2>
+
+<article class="question">
+<h3>Q1 <span class="topic-tag">resolve(相対パス) = 結合</span></h3>
+<div class="qtext">次のコードを実行した結果は？</div>
+<pre><code>Path p = Path.of("/home").resolve("user/docs");
+System.out.println(p);</code></pre>
+<div class="choices"><ol>
+<li>/home</li>
+<li>/home/user/docs</li>
+<li>user/docs</li>
+<li>コンパイルエラー</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>相対パスを resolve すれば普通に結合。絶対パスを渡したときだけ置換される。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q2 <span class="topic-tag">Files.write の引数型</span></h3>
+<div class="qtext">次のうち、コンパイルエラーになるものは？</div>
+<pre><code>A. Files.write(Path.of("a.txt"), "Hello".getBytes());
+B. Files.write(Path.of("a.txt"), List.of("line1", "line2"));
+C. Files.write(Path.of("a.txt"), "Hello");
+D. Files.writeString(Path.of("a.txt"), "Hello");</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p><code>Files.write</code> のオーバーロードは <code>byte[]</code> か <code>Iterable&lt;CharSequence&gt;</code> のみ。String を直接渡すとエラー。文字列を直接渡したいなら <code>Files.writeString</code>（Java 11+）。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q3 <span class="topic-tag">Path.normalize</span></h3>
+<div class="qtext">次のコードの出力は？</div>
+<pre><code>Path p = Path.of("/a/b/c/../d");
+System.out.println(p.normalize());</code></pre>
+<div class="choices"><ol>
+<li>/a/b/c/../d</li>
+<li>/a/b/d</li>
+<li>/a/d</li>
+<li>/d</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p><code>..</code> は親ディレクトリ＝直前のセグメントを打ち消す。<code>/a/b/c</code> から <code>..</code> で <code>/a/b</code> に戻り、<code>/d</code> を結合して <code>/a/b/d</code>。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q4 <span class="topic-tag">Files.delete on non-empty directory</span></h3>
+<div class="qtext">空でないディレクトリを <code>Files.delete(p)</code> で削除すると？</div>
+<div class="choices"><ol>
+<li>中身ごと再帰的に削除される</li>
+<li>中身は残り、空でないので例外がスローされる</li>
+<li>黙って何もしない</li>
+<li>ディレクトリだけ削除され、中身はゴミとして残る</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p><code>DirectoryNotEmptyException</code> がスローされる。再帰削除したいなら <code>Files.walk</code> で集めて削除する。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q5 <span class="topic-tag">BufferedReader.readLine</span></h3>
+<div class="qtext">次のコードの出力は？（data.txt: <code>Hello\nWorld</code>）</div>
+<pre><code>try (BufferedReader br = Files.newBufferedReader(Path.of("data.txt"))) {
+    System.out.println(br.readLine());
+}</code></pre>
+<div class="choices"><ol>
+<li>Hello</li>
+<li>World</li>
+<li>Hello\nWorld</li>
+<li>Hello World</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: A</div>
+<div class="explanation">
+<p><code>readLine()</code> は 1行ずつ読む。最初の呼び出しで <code>Hello</code> のみ。改行は含まれない。全行欲しければループするか <code>lines()</code> を使う。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q6 <span class="topic-tag">createDirectory vs createDirectories</span></h3>
+<div class="qtext">次のコードを実行するとどうなる？（<code>/tmp</code> は存在、<code>/tmp/a</code> は存在しない）</div>
+<pre><code>Path p = Path.of("/tmp/a/b/c");
+Files.createDirectory(p);</code></pre>
+<div class="choices"><ol>
+<li>/tmp/a, /tmp/a/b, /tmp/a/b/c すべて作成される</li>
+<li>/tmp/a/b/c のみ作成される</li>
+<li>NoSuchFileException がスローされる</li>
+<li>FileAlreadyExistsException がスローされる</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p><code>createDirectory</code>（単数形）は親ディレクトリが存在しないと失敗。<code>NoSuchFileException</code> がスローされる。</p>
+<table>
+<tr><th>メソッド</th><th>親が無い場合</th></tr>
+<tr><td>createDirectory</td><td>❌ NoSuchFileException</td></tr>
+<tr><td>createDirectories</td><td>✅ 親も含めて作成</td></tr>
+</table>
+<div class="key-point"><strong>覚え方:</strong> s 付きが再帰（File.mkdir / mkdirs と同じ関係）。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q7 <span class="topic-tag">Serializable</span></h3>
+<div class="qtext">オブジェクトをシリアライズするためにクラスが満たすべき条件は？</div>
+<div class="choices"><ol>
+<li>Cloneable を実装する</li>
+<li>Serializable を実装する</li>
+<li>extends Object を明示する</li>
+<li>全フィールドを final にする</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p><code>Serializable</code> はマーカーインターフェース（メソッドなし）。これを実装するだけで <code>ObjectOutputStream</code> でシリアライズ可能になる。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q8 <span class="topic-tag">Files.walk の maxDepth</span></h3>
+<div class="qtext">次のコードの動作として正しいものは？</div>
+<pre><code>try (Stream&lt;Path&gt; s = Files.walk(Path.of("."), 1)) {
+    s.forEach(System.out::println);
+}</code></pre>
+<div class="choices"><ol>
+<li>カレントディレクトリ直下のみ表示される（サブディレクトリの中は見ない）</li>
+<li>カレントディレクトリと全サブディレクトリの中身が再帰的に表示される</li>
+<li>何も表示されない</li>
+<li>コンパイルエラー（Files.walk は引数1個のみ）</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: A</div>
+<div class="explanation">
+<p><code>Files.walk</code> の第2引数は maxDepth。</p>
+<ul>
+<li>depth = 0 → スタート地点のみ</li>
+<li>depth = 1 → スタート地点 + 直下の子のみ</li>
+<li>depth = Integer.MAX_VALUE（引数省略時）→ 完全再帰</li>
+</ul>
+<p><code>Files.walk(path)</code>（引数1個）と <code>Files.walk(path, 1)</code> は別物。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q9 <span class="topic-tag">ファイル全体を1文字列で読む</span></h3>
+<div class="qtext">ファイル全体を1つの文字列として読み込む正しい方法は？（複数選択可、最も簡潔は？）</div>
+<pre><code>A. Files.readAllLines(p).toString();
+B. Files.readString(p);
+C. new String(Files.readAllBytes(p));
+D. Files.lines(p).reduce("", String::concat);</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B, C（最も簡潔は B）</div>
+<div class="explanation">
+<p>A: <code>List.toString()</code> は <code>[line1, line2, ...]</code> 形式でファイル内容ではない。</p>
+<p>D: 改行が消える＋Streamがcloseされずリーク。</p>
+<div class="key-point"><strong>覚え方:</strong> List.toString() はファイル内容ではない、典型的な罠。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q10 <span class="topic-tag">相対パスの getRoot</span></h3>
+<div class="qtext">次のコードの出力は？</div>
+<pre><code>Path p = Path.of("a/b/c.txt");
+System.out.println(p.getRoot());</code></pre>
+<div class="choices"><ol>
+<li>/</li>
+<li>a</li>
+<li>null</li>
+<li>a/b/c.txt</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p><code>getRoot()</code> は絶対パスのルートを返す。相対パスにはルートが存在しないので <strong>null</strong>。</p>
+<table>
+<tr><th>パス</th><th>getRoot()</th></tr>
+<tr><td>/home/user (Unix)</td><td>/</td></tr>
+<tr><td>C:\Users\foo (Windows)</td><td>C:\</td></tr>
+<tr><td>a/b/c.txt (相対)</td><td>null</td></tr>
+</table>
+</div>
+</div>
+</details>
+</article>
+
+<!-- ===================== Section 4 ===================== -->
+<h2 id="sec4" class="section-title">4. File I/O 第3弾</h2>
+
+<article class="question">
+<h3>Q1 <span class="topic-tag">resolve は連結のみ</span></h3>
+<div class="qtext">次のコードの出力は？</div>
+<pre><code>Path.of("/home/user/docs").resolve("../bin")</code></pre>
+<div class="choices"><ol>
+<li>/home/user/bin</li>
+<li>/home/user/docs/../bin</li>
+<li>/home/user/docs/bin</li>
+<li>/bin</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p><code>resolve</code> は単純に結合するだけ。<code>..</code> の解釈はしない。<code>..</code> を解釈してパスを綺麗にしたいなら <code>.normalize()</code> を続けて呼ぶ。</p>
+<pre><code>p.resolve("../bin")              // /home/user/docs/../bin
+p.resolve("../bin").normalize()  // /home/user/bin</code></pre>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q2 <span class="topic-tag">FileOutputStream.write のオーバーロード</span></h3>
+<div class="qtext">FileOutputStream fos に対してコンパイルが通るものは（複数選択可）？</div>
+<pre><code>A. fos.write(65);
+B. fos.write("A");
+C. fos.write("A".getBytes());
+D. fos.write(new byte[]{65, 66, 67});
+E. fos.write('A');</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: A, C, D, E</div>
+<div class="explanation">
+<p>B のみ NG（String 引数のオーバーロードなし）。E は <code>'A'</code> が char だけど int に自動拡張されて <code>write(int)</code> で通る。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q3 <span class="topic-tag">createDirectories は冪等</span></h3>
+<div class="qtext">次のコードを実行するとどうなる？（<code>/tmp</code> は存在、<code>new_dir</code> は最初存在しない）</div>
+<pre><code>Path p = Path.of("/tmp/new_dir");
+Files.createDirectories(p);
+Files.createDirectories(p);</code></pre>
+<div class="choices"><ol>
+<li>1回目成功、2回目で FileAlreadyExistsException</li>
+<li>2回ともエラーなく成功</li>
+<li>1回目成功、2回目で IOException</li>
+<li>1回目で NoSuchFileException</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p><code>createDirectories</code>（s 付き）は既存ディレクトリに対してもエラーを投げない。「無ければ作る、あれば何もしない」という冪等な動作。</p>
+<table>
+<tr><th>メソッド</th><th>ディレクトリが既に存在する場合</th></tr>
+<tr><td>createDirectory</td><td>❌ FileAlreadyExistsException</td></tr>
+<tr><td>createDirectories</td><td>✅ 何もせず成功</td></tr>
+</table>
+<div class="key-point"><strong>覚え方:</strong> s 付きは寛容、s なしは厳密。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q4 <span class="topic-tag">Files.walk(p) は完全再帰</span></h3>
+<div class="qtext">次のコードの動作として正しいものは？</div>
+<pre><code>try (Stream&lt;Path&gt; s = Files.walk(Path.of("."))) {
+    long count = s.filter(Files::isRegularFile).count();
+}</code></pre>
+<div class="choices"><ol>
+<li>カレントディレクトリ直下のファイル数を返す</li>
+<li>カレントディレクトリ配下の全ファイル数（再帰）を返す</li>
+<li>ディレクトリも含めた総数を返す</li>
+<li>コンパイルエラー（引数 1 つでは呼び出せない）</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p><code>Files.walk(p)</code> は depth 引数なし＝完全再帰（Integer.MAX_VALUE）。<code>Files::isRegularFile</code> でディレクトリを除外してファイルだけカウント。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q5 <span class="topic-tag">相対パスの getRoot/getParent</span></h3>
+<div class="qtext">次のコードの出力は？</div>
+<pre><code>Path p = Path.of("docs/report.txt");
+System.out.println(p.getParent() + " | " + p.getRoot() + " | " + p.getFileName());</code></pre>
+<div class="choices"><ol>
+<li>/docs | / | report.txt</li>
+<li>docs | null | report.txt</li>
+<li>docs | docs | report.txt</li>
+<li>null | null | report.txt</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>相対パスでも getParent は機能するが、getRoot だけ null になる。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q6 <span class="topic-tag">Files.move のオプション</span></h3>
+<div class="qtext">Files.move の正しい呼び出し（複数選択可）</div>
+<pre><code>A. Files.move(src, dst);
+B. + REPLACE_EXISTING
+C. + ATOMIC_MOVE
+D. + COPY_ATTRIBUTES
+E. + REPLACE_EXISTING, ATOMIC_MOVE</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: A, B, C, E（D は不可）</div>
+<div class="explanation">
+<p><code>COPY_ATTRIBUTES</code> は <code>Files.move</code> ではサポートされない（実行時に UnsupportedOperationException）。</p>
+<table>
+<tr><th>StandardCopyOption</th><th>copy</th><th>move</th></tr>
+<tr><td>REPLACE_EXISTING</td><td>✅</td><td>✅</td></tr>
+<tr><td>COPY_ATTRIBUTES</td><td>✅</td><td>❌ 不要（自動）</td></tr>
+<tr><td>ATOMIC_MOVE</td><td>❌ 不可能</td><td>✅</td></tr>
+</table>
+<div class="key-point"><strong>本質:</strong> move は rename 操作で属性は自動でついてくる。copy は新規作成なので属性は別途、ただし読み書き多段階なのでアトミック不可。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q7 <span class="topic-tag">System.console() は IDE で null</span></h3>
+<div class="qtext">次のコードを通常の IDE（Eclipse, IntelliJ）から実行するとどうなる？</div>
+<pre><code>Console c = System.console();
+String name = c.readLine("Name: ");
+System.out.println(name);</code></pre>
+<div class="choices"><ol>
+<li>ユーザー入力を読み取って表示する</li>
+<li>NullPointerException がスローされる</li>
+<li>IOException がスローされる</li>
+<li>空文字列が返される</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p><code>System.console()</code> はコントロール端末がない環境では null を返す。IDE から実行すると基本 null → NPE。</p>
+<p>コマンドラインから <code>java MyClass</code> で実行すれば Console が取れる。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q8 <span class="topic-tag">try (br) は Java 9+ 構文</span></h3>
+<div class="qtext">次のコードでファイルは何回 close される？</div>
+<pre><code>BufferedReader br = Files.newBufferedReader(Path.of("data.txt"));
+try (br) {
+    System.out.println(br.readLine());
+}</code></pre>
+<div class="choices"><ol>
+<li>0回（コンパイルエラー）</li>
+<li>1回</li>
+<li>2回</li>
+<li>close されない（try-with-resources は宣言式のみ対応）</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>Java 9 から追加された「effectively final な既存変数」を try-with-resources で使える書き方。1回 close される。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q9 <span class="topic-tag">PrintWriter + printf</span></h3>
+<div class="qtext">次のコードを実行した結果として正しいものは？</div>
+<pre><code>try (PrintWriter pw = new PrintWriter(Files.newBufferedWriter(Path.of("a.txt")))) {
+    pw.printf("%s = %d%n", "count", 5);
+}</code></pre>
+<div class="choices"><ol>
+<li>ファイルに count = 5 と改行が書き込まれる</li>
+<li>ファイルに %s = %d%n がそのまま書き込まれる</li>
+<li>コンパイルエラー（PrintWriter は BufferedWriter を受け取れない）</li>
+<li>IOException がスローされる</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: A</div>
+<div class="explanation">
+<p>PrintWriter(Writer) コンストラクタは存在し、BufferedWriter を包める。printf は書式通り展開、<code>%n</code> はプラットフォーム依存の改行。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q10 <span class="topic-tag">Serializable + static は対象外</span></h3>
+<div class="qtext">次のクラスについて正しい記述は？</div>
+<pre><code>class Account implements Serializable {
+    private String name;
+    private transient String password;
+    private static int count;
+}</code></pre>
+<div class="choices"><ol>
+<li>name, password, count の全部がシリアライズされる</li>
+<li>name のみシリアライズされる</li>
+<li>name と count がシリアライズされる</li>
+<li>password のみシリアライズされない、name と count はされる</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>シリアライズされるのはインスタンスフィールドのみ。除外されるのは：</p>
+<ul>
+<li><code>transient</code> がついたフィールド</li>
+<li><code>static</code> フィールド（クラス全体に属するもの、インスタンスじゃない）</li>
+</ul>
+<div class="key-point"><strong>本質:</strong> シリアライズはインスタンス状態を保存する仕組み → static はクラスに属するので無関係。</div>
+</div>
+</div>
+</details>
+</article>
+
+<!-- ===================== Section 5 ===================== -->
+<h2 id="sec5" class="section-title">5. File I/O 第4弾</h2>
+
+<article class="question">
+<h3>Q1 <span class="topic-tag">resolve + normalize</span></h3>
+<div class="qtext">次のコードの出力は？</div>
+<pre><code>Path p = Path.of("/a/b").resolve("c/../d").normalize();
+System.out.println(p);</code></pre>
+<div class="choices"><ol>
+<li>/a/b/c/../d</li>
+<li>/a/b/d</li>
+<li>/a/d</li>
+<li>/d</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>resolve で <code>/a/b/c/../d</code> になり、normalize で <code>..</code> を整理して <code>/a/b/d</code>。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q2 <span class="topic-tag">StandardOpenOption.APPEND</span></h3>
+<div class="qtext">既存のファイルに追記したい場合、正しい呼び出しは？</div>
+<pre><code>A. Files.write(p, data);
+B. Files.write(p, data, StandardOpenOption.APPEND);
+C. Files.write(p, data, StandardOpenOption.CREATE);
+D. Files.write(p, data, StandardOpenOption.TRUNCATE_EXISTING);</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p><code>APPEND</code> で追記。<code>CREATE</code> は「無ければ作る」、<code>TRUNCATE_EXISTING</code> は「あれば切り詰めて0から書く」（デフォルト動作）。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q3 <span class="topic-tag">Path.startsWith</span></h3>
+<div class="qtext">次のコードの出力は？</div>
+<pre><code>Path a = Path.of("/home/user/docs/report.txt");
+Path b = Path.of("/home/user");
+System.out.println(a.startsWith(b));</code></pre>
+<div class="choices"><ol>
+<li>true</li>
+<li>false</li>
+<li>NullPointerException</li>
+<li>コンパイルエラー（戻り値が String 型）</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: A</div>
+<div class="explanation">
+<p><code>startsWith</code> は Path 単位で前方一致（文字列の前方一致ではない）。Path のセグメント列として一致するかチェック。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q4 <span class="topic-tag">serialVersionUID</span></h3>
+<div class="qtext">シリアライズしたクラスに後からフィールドを追加して、古いシリアライズデータを読み戻そうとしたとき、serialVersionUID を明示的に宣言していないとどうなる？</div>
+<div class="choices"><ol>
+<li>自動で互換性が保たれる</li>
+<li>InvalidClassException がスローされる可能性がある</li>
+<li>追加したフィールドは null で復元される</li>
+<li>何の問題も起きない</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>serialVersionUID を明示してないと、JVM がクラス構造から自動生成。クラスを変更すると自動生成UIDも変わって、古いデータを読み戻したときに InvalidClassException。これを防ぐために手動で固定値を宣言する：</p>
+<pre><code>private static final long serialVersionUID = 1L;</code></pre>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q5 <span class="topic-tag">BufferedReader.lines</span></h3>
+<div class="qtext">次のコードの動作として正しいのは？</div>
+<pre><code>try (BufferedReader br = Files.newBufferedReader(Path.of("a.txt"))) {
+    long count = br.lines().count();
+    System.out.println(count);
+}</code></pre>
+<div class="choices"><ol>
+<li>ファイルの行数が出力される</li>
+<li>コンパイルエラー（BufferedReader に lines() は無い）</li>
+<li>リソースリークが発生する</li>
+<li>0 が出力される</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: A</div>
+<div class="explanation">
+<p><code>BufferedReader.lines()</code> は Java 8 で追加された、<code>Stream&lt;String&gt;</code> を返すメソッド。try-with-resources で BufferedReader を閉じてれば Stream も一緒に閉じられるのでリークなし。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q6 <span class="topic-tag">Path.subpath</span></h3>
+<div class="qtext">次のコードの出力は？</div>
+<pre><code>Path p = Path.of("/home/user/docs/report.txt");
+System.out.println(p.subpath(1, 3));</code></pre>
+<div class="choices"><ol>
+<li>/user/docs</li>
+<li>user/docs</li>
+<li>/home/user/docs</li>
+<li>user/docs/report.txt</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>subpath(1, 3) は インデックス1（含む）から 3（含まず）まで。区切りは：0=home, 1=user, 2=docs, 3=report.txt。なので user/docs。</p>
+<p><strong>戻り値は相対パス（先頭スラッシュなし）</strong>。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q7 <span class="topic-tag">DataOutputStream.writeInt</span></h3>
+<div class="qtext">次のコードを実行するとファイルには何が書き込まれる？</div>
+<pre><code>try (DataOutputStream dos = new DataOutputStream(new FileOutputStream("a.bin"))) {
+    dos.writeInt(65);
+}</code></pre>
+<div class="choices"><ol>
+<li>ASCII文字の "A"（1バイト）</li>
+<li>文字列 "65"（2バイト）</li>
+<li>int を 4バイトのバイナリで書き込み</li>
+<li>コンパイルエラー</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p><code>writeInt(65)</code> は int を 4バイトのビッグエンディアンで書く。<code>00 00 00 41</code> の4バイト。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q8 <span class="topic-tag">equals vs isSameFile</span></h3>
+<div class="qtext">次のコードの出力は？（<code>/tmp/foo.txt</code> は存在する）</div>
+<pre><code>Path p1 = Path.of("/tmp/foo.txt");
+Path p2 = Path.of("/tmp/./foo.txt");
+System.out.println(p1.equals(p2) + " " + Files.isSameFile(p1, p2));</code></pre>
+<div class="choices"><ol>
+<li>true true</li>
+<li>true false</li>
+<li>false true</li>
+<li>false false</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p><code>Path.equals</code> は文字列としての比較。<code>/tmp/foo.txt</code> ≠ <code>/tmp/./foo.txt</code>。</p>
+<p><code>Files.isSameFile</code> は実ファイルを参照して同一判定。同じファイルを指していれば true。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q9 <span class="topic-tag">writeObject カスタマイズ</span></h3>
+<div class="qtext">Serializable なクラスで transient フィールドを暗号化して保存したい。正しいアプローチは？</div>
+<div class="choices"><ol>
+<li>transient を外すしかない</li>
+<li>クラスに private void writeObject(ObjectOutputStream) と readObject(ObjectInputStream) を実装する</li>
+<li>クラスに static void serialize(ObjectOutputStream) を実装する</li>
+<li>transient フィールドは絶対に保存できない</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>シリアライズのカスタマイズは <code>writeObject(ObjectOutputStream)</code> と <code>readObject(ObjectInputStream)</code> をクラス内に private メソッドとして実装する。これで transient フィールドも暗号化して保存・復号して復元できる。</p>
+<p><strong>本質:</strong> transient はデフォルト処理に対するスキップ指示。カスタム writeObject では自分で好きに書ける。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q10 <span class="topic-tag">FileChannel</span></h3>
+<div class="qtext">次のうち、FileChannel の正しい説明は？</div>
+<div class="choices"><ol>
+<li>テキストファイル専用の高速ストリーム</li>
+<li>バイト単位で位置指定読み書きができる、ByteBuffer と組み合わせて使う</li>
+<li>FileReader の別名</li>
+<li>Java 11 で追加された新しいクラス</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>FileChannel はバイト位置指定（ランダムアクセス）と ByteBuffer を組み合わせる低レベルAPI。Java 1.4 からある（NIO 第1世代）。</p>
+</div>
+</div>
+</details>
+</article>
+
+<!-- ===================== Section 6 ===================== -->
+<h2 id="sec6" class="section-title">6. 並行処理 基礎</h2>
+
+<article class="question">
+<h3>Q1 <span class="topic-tag">run vs start</span></h3>
+<div class="qtext">次のコードを実行した結果として正しいものは？</div>
+<pre><code>Thread t = new Thread(() -&gt; System.out.println("Hello"));
+t.run();
+t.start();</code></pre>
+<div class="choices"><ol>
+<li>"Hello" が1回だけ表示される</li>
+<li>"Hello" が2回表示される</li>
+<li>IllegalThreadStateException がスローされる</li>
+<li>コンパイルエラー</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p><code>t.run()</code> はただのメソッド呼び出し（メインスレッドで実行）、Thread の状態を変えない（NEWのまま）。<code>t.start()</code> は新しいスレッドを作って Runnable 実行。両方とも実行される。</p>
+<p>start を2回呼ぶと IllegalThreadStateException だが、run の後の start は問題なし。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q2 <span class="topic-tag">ExecutorService の種類</span></h3>
+<div class="qtext">短時間タスクが大量に発生し、スレッドを必要に応じて増減・再利用したい場合に最も適切なのは？</div>
+<div class="choices"><ol>
+<li>Executors.newFixedThreadPool(10)</li>
+<li>Executors.newCachedThreadPool()</li>
+<li>Executors.newSingleThreadExecutor()</li>
+<li>Executors.newScheduledThreadPool(10)</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p><code>newCachedThreadPool</code> は必要に応じて増減・60秒アイドルで破棄。短時間タスク大量向け。</p>
+<table>
+<tr><th>ファクトリ</th><th>用途</th></tr>
+<tr><td>newFixedThreadPool(n)</td><td>固定 n 個、一定負荷の処理</td></tr>
+<tr><td>newCachedThreadPool()</td><td>必要に応じて増減、短時間タスク大量</td></tr>
+<tr><td>newSingleThreadExecutor()</td><td>1個だけ、順序処理</td></tr>
+<tr><td>newScheduledThreadPool(n)</td><td>遅延・定期実行</td></tr>
+</table>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q3 <span class="topic-tag">Thread 実行順は不定</span></h3>
+<div class="qtext">次のコードを実行したときの出力として正しいものは？</div>
+<pre><code>Thread a = new Thread(() -&gt; System.out.print("A"));
+Thread b = new Thread(() -&gt; System.out.print("B"));
+Thread c = new Thread(() -&gt; System.out.print("C"));
+c.start();
+a.start();
+b.start();</code></pre>
+<div class="choices"><ol>
+<li>CAB（start した順）</li>
+<li>ABC（変数名のアルファベット順）</li>
+<li>必ず A, B, C のすべてが含まれるが、順序は不定</li>
+<li>コンパイルエラー</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p>Thread の実行順は OS のスケジューラ任せで保証なし。「start した順」も「変数名の順」も保証されない。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q4 <span class="topic-tag">synchronized は読み込み側にも必要</span></h3>
+<div class="qtext">次のコードについて正しい説明は？</div>
+<pre><code>class Counter {
+    private int count;
+    public synchronized void inc() { count++; }
+    public int get() { return count; }
+}</code></pre>
+<div class="choices"><ol>
+<li>inc() と get() の両方が排他制御される</li>
+<li>inc() のみ排他制御されるが、get() は別スレッドから読まれる可能性があり、最新値が読めない場合がある</li>
+<li>count を private にしているのでスレッドセーフ</li>
+<li>count を volatile にする必要がある（このままだとコンパイルエラー）</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>synchronized は書き込み側だけでなく、<strong>読み込み側にも必要</strong>。または volatile にする、AtomicInteger に置き換える。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q5 <span class="topic-tag">AtomicInteger getAndX vs XAndGet</span></h3>
+<div class="qtext">次のコードの出力として正しいものは？</div>
+<pre><code>AtomicInteger ai = new AtomicInteger(10);
+int v1 = ai.getAndIncrement();
+int v2 = ai.incrementAndGet();
+System.out.println(v1 + " " + v2 + " " + ai.get());</code></pre>
+<div class="choices"><ol>
+<li>10 11 12</li>
+<li>11 12 12</li>
+<li>10 12 12</li>
+<li>11 11 12</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<table>
+<tr><th>操作</th><th>内部動作</th><th>戻り値</th><th>次の状態</th></tr>
+<tr><td>getAndIncrement()</td><td>取得 → +1</td><td>10</td><td>11</td></tr>
+<tr><td>incrementAndGet()</td><td>+1 → 取得</td><td>12</td><td>12</td></tr>
+</table>
+<div class="key-point"><strong>覚え方:</strong> get と動詞の順序が動作順。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q6 <span class="topic-tag">CountDownLatch vs CyclicBarrier</span></h3>
+<div class="qtext">次の説明のうち正しいものは？</div>
+<div class="choices"><ol>
+<li>CountDownLatch は再利用可能、CyclicBarrier は使い切り</li>
+<li>CountDownLatch は使い切り、CyclicBarrier は再利用可能</li>
+<li>両方とも使い切り</li>
+<li>両方とも再利用可能</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>CountDownLatch = 使い切り、CyclicBarrier = 再利用可。「Cyclic = 周期的、繰り返し可能」と覚える。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q7 <span class="topic-tag">プール並列度 + Future.get</span></h3>
+<div class="qtext">次のコードについて正しい説明は？</div>
+<pre><code>ExecutorService es = Executors.newFixedThreadPool(2);
+Future&lt;Integer&gt; f1 = es.submit(() -&gt; { Thread.sleep(1000); return 1; });
+Future&lt;Integer&gt; f2 = es.submit(() -&gt; { Thread.sleep(2000); return 2; });
+int sum = f1.get() + f2.get();
+System.out.println(sum);</code></pre>
+<div class="choices"><ol>
+<li>並列実行されるので約1秒で終わる</li>
+<li>並列実行されるので約2秒で終わる</li>
+<li>直列実行され、約3秒かかる</li>
+<li>コンパイルエラー（Callable は例外を投げられない）</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>スレッドプール 2 個あるので両タスクは並行実行。<code>f1.get()</code> でブロック中も task2 は裏で動き続ける。約2秒で完了。</p>
+<div class="key-point"><strong>本質:</strong> プールサイズ ≥ タスク数 → 全部並列、合計時間 ≈ 最長タスク時間。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q8 <span class="topic-tag">Flow.Subscriber の4メソッド</span></h3>
+<div class="qtext">次のうち、Flow.Subscriber&lt;T&gt; インターフェースが定義しているメソッドではないものは？</div>
+<pre><code>A. onSubscribe(Subscription)
+B. onNext(T)
+C. onError(Throwable)
+D. onComplete()
+E. onCancel()</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: E</div>
+<div class="explanation">
+<p>Subscriber の4メソッドは onSubscribe / onNext / onError / onComplete。<code>onCancel()</code> は存在しない。キャンセルは <code>Subscription.cancel()</code>（Subscriber 側じゃなくて Subscription 側）。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q9 <span class="topic-tag">parallelStream の例外伝播</span></h3>
+<div class="qtext">次のコードを実行した結果は？</div>
+<pre><code>List&lt;Integer&gt; list = List.of(1, 2, -3, 4, 5);
+list.parallelStream().forEach(n -&gt; {
+    if (n &lt; 0) throw new RuntimeException("negative");
+    System.out.print(n);
+});</code></pre>
+<div class="choices"><ol>
+<li>-3 を処理するスレッドだけが例外を投げ、他のスレッドは正常に出力を完了する</li>
+<li>すべてのスレッドが停止し、何も出力されない</li>
+<li>一部の数値は出力される可能性があり、最終的に RuntimeException が呼び出し元に伝播する</li>
+<li>コンパイルエラー（forEach 内で例外を投げてはいけない）</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p>parallelStream の forEach で例外が出ると、どこか1つのスレッドが例外を投げて停止、他のスレッドは仕事中のものは続けるかもしれない、最終的に例外は呼び出し元に伝播する。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q10 <span class="topic-tag">ConcurrentHashMap は null 禁止</span></h3>
+<div class="qtext">次のコードについて正しい説明は？</div>
+<pre><code>Map&lt;String, Integer&gt; map = new ConcurrentHashMap&lt;&gt;();
+map.put("a", 1);
+map.put(null, 2);  // ★</code></pre>
+<div class="choices"><ol>
+<li>null キーが許可されるので問題なく動作する</li>
+<li>NullPointerException がスローされる</li>
+<li>null キーは無視され、map.size() は 1 のまま</li>
+<li>コンパイルエラー</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>ConcurrentHashMap は null キーも null 値も禁止。理由：null は「未設定」なのか「値として null」なのか並行環境で区別できなくなるから。</p>
+<table>
+<tr><th>Map 実装</th><th>null キー</th><th>null 値</th></tr>
+<tr><td>HashMap</td><td>OK</td><td>OK</td></tr>
+<tr><td>LinkedHashMap</td><td>OK</td><td>OK</td></tr>
+<tr><td>TreeMap</td><td>NG（比較不可）</td><td>OK</td></tr>
+<tr><td>ConcurrentHashMap</td><td>NG</td><td>NG</td></tr>
+</table>
+</div>
+</div>
+</details>
+</article>
+
+<!-- ===================== Section 7 ===================== -->
+<h2 id="sec7" class="section-title">7. 並行処理 応用</h2>
+
+<article class="question">
+<h3>Q1 <span class="topic-tag">デッドロック</span></h3>
+<div class="qtext">次の2つのスレッドを同時に実行するとどうなる可能性が高い？</div>
+<pre><code>Object lockA = new Object(), lockB = new Object();
+
+// Thread 1
+new Thread(() -&gt; {
+    synchronized (lockA) {
+        Thread.sleep(100);
+        synchronized (lockB) { /* work */ }
+    }
+}).start();
+
+// Thread 2
+new Thread(() -&gt; {
+    synchronized (lockB) {
+        Thread.sleep(100);
+        synchronized (lockA) { /* work */ }
+    }
+}).start();</code></pre>
+<div class="choices"><ol>
+<li>順次実行される（synchronized が保証）</li>
+<li>デッドロックが発生する可能性が高い</li>
+<li>IllegalMonitorStateException がスローされる</li>
+<li>両方のスレッドが即座に終了する</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>A→B、B→A の順でロック取ろうとして相互待ち = 古典的デッドロック。</p>
+<div class="key-point"><strong>回避策:</strong> ロックの取得順序を全スレッドで揃える。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q2 <span class="topic-tag">RejectedExecutionException</span></h3>
+<div class="qtext">次のコードについて正しい説明は？</div>
+<pre><code>ExecutorService es = Executors.newFixedThreadPool(2);
+es.submit(() -&gt; { Thread.sleep(5000); return 1; });
+es.shutdown();
+es.submit(() -&gt; 2);   // ★</code></pre>
+<div class="choices"><ol>
+<li>2つ目のタスクも正常に実行される</li>
+<li>RejectedExecutionException がスローされる</li>
+<li>IllegalStateException がスローされる</li>
+<li>shutdown() の後でも submit() できる（待機中のタスクとして実行される）</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>shutdown 済みの ExecutorService に submit すると <code>RejectedExecutionException</code> がスローされる。</p>
+<table>
+<tr><th>メソッド</th><th>動作</th></tr>
+<tr><td>shutdown()</td><td>新規拒否、既存は完遂</td></tr>
+<tr><td>shutdownNow()</td><td>新規拒否、既存に interrupt 送信</td></tr>
+<tr><td>awaitTermination(t, u)</td><td>全タスク終了を待つ</td></tr>
+</table>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q3 <span class="topic-tag">counter++ の race</span></h3>
+<div class="qtext">次のコードを 1000 スレッドで同時実行したとき、counter の最終値として最も可能性が高いものは？</div>
+<pre><code>class Counter {
+    int counter = 0;
+    void inc() { counter++; }
+}
+Counter c = new Counter();
+// 1000 スレッドが c.inc() を1回ずつ呼ぶ</code></pre>
+<div class="choices"><ol>
+<li>必ず 1000</li>
+<li>1000 より小さい値（race condition）</li>
+<li>1000 より大きい値</li>
+<li>NullPointerException</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p><code>counter++</code> は read → modify → write の3ステップ。スレッドAが読んだ後にスレッドBが書くと、Aの書き込みが古い値で上書きされる（lost update）。結果は 1000 未満。</p>
+<p>解決策：AtomicInteger.incrementAndGet() か synchronized。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q4 <span class="topic-tag">ExecutionException ラップ</span></h3>
+<div class="qtext">次のコードで f.get() がスローする例外は？</div>
+<pre><code>Future&lt;Integer&gt; f = es.submit((Callable&lt;Integer&gt;) () -&gt; {
+    throw new IllegalArgumentException("boom");
+});
+try {
+    Integer v = f.get();
+} catch (??? e) {
+    // ★ここで捕捉される例外は？
+}</code></pre>
+<div class="choices"><ol>
+<li>IllegalArgumentException</li>
+<li>RuntimeException</li>
+<li>ExecutionException</li>
+<li>InterruptedException</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p>Future.get() はタスク内の例外を <code>ExecutionException</code> でラップしてスローする。元の例外は <code>e.getCause()</code> で取れる。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q5 <span class="topic-tag">reduce は並列安全</span></h3>
+<div class="qtext">次のコードを並列実行したとき、結果はどうなる？</div>
+<pre><code>int result = IntStream.rangeClosed(1, 100)
+    .parallel()
+    .reduce(0, (a, b) -&gt; a + b);   // sum
+System.out.println(result);</code></pre>
+<div class="choices"><ol>
+<li>必ず 5050 になる</li>
+<li>並列なので結果が不定（race condition）</li>
+<li>0 になる</li>
+<li>オーバーフローして負の値になる</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: A</div>
+<div class="explanation">
+<p><code>reduce(0, (a,b) -&gt; a+b)</code> は identity（単位元）と associative（結合的）な操作なので、並列実行しても結果が変わらないことが保証されてる。</p>
+<ul>
+<li>identity: <code>0 + x = x</code></li>
+<li>associative: <code>(a + b) + c = a + (b + c)</code></li>
+</ul>
+<div class="key-point"><strong>本質:</strong> reduce / collect は並列安全。forEach で外部状態を変更するのは race。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q6 <span class="topic-tag">computeIfAbsent + ArrayList</span></h3>
+<div class="qtext">次のコードについて正しい説明は？</div>
+<pre><code>ConcurrentHashMap&lt;String, List&lt;Integer&gt;&gt; map = new ConcurrentHashMap&lt;&gt;();
+// 複数スレッドが同時に実行
+map.computeIfAbsent("key", k -&gt; new ArrayList&lt;&gt;()).add(42);</code></pre>
+<div class="choices"><ol>
+<li>スレッドセーフで、key に紐づく List は1つだけ作られる</li>
+<li>各スレッドが個別に List を作るので、重複した List が複数できる</li>
+<li>ConcurrentHashMap でも List 自体はスレッドセーフではないので、add(42) で例外の可能性</li>
+<li>A と C の両方</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: D</div>
+<div class="explanation">
+<p>computeIfAbsent は ConcurrentHashMap でアトミック → List は1つだけ。しかし戻り値の ArrayList 自体はスレッドセーフじゃないので、複数スレッドが add(42) を同時に呼ぶとデータ不整合や ConcurrentModificationException の可能性。</p>
+<pre><code>// 完全安全に
+map.computeIfAbsent("key", k -&gt; Collections.synchronizedList(new ArrayList&lt;&gt;())).add(42);
+// または
+map.computeIfAbsent("key", k -&gt; new CopyOnWriteArrayList&lt;&gt;()).add(42);</code></pre>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q7 <span class="topic-tag">Integer キャッシュの罠</span></h3>
+<div class="qtext">次のコードについて正しい説明は？</div>
+<pre><code>Integer lock = 10;
+synchronized (lock) { /* work */ }
+// 別の場所で
+Integer lock2 = 10;
+synchronized (lock2) { /* work */ }</code></pre>
+<div class="choices"><ol>
+<li>lock と lock2 は別オブジェクトなので、相互に排他されない</li>
+<li>lock と lock2 は同じ Integer キャッシュを参照するため、相互に排他される可能性がある（意図しないロック共有）</li>
+<li>Integer は immutable なので synchronized に使えない（コンパイルエラー）</li>
+<li>必ず排他される（オートボックシングによる）</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p><code>Integer.valueOf</code> は -128〜127 の範囲をキャッシュしていて、同じ値なら同じインスタンスを返す。だから <code>lock</code> と <code>lock2</code> は同じオブジェクト → synchronized は同じモニタを使う → 意図せず排他されてしまう。</p>
+<div class="key-point"><strong>教訓:</strong> synchronized のロックには専用の Object を使う。ラッパー型、String、boxed プリミティブは絶対に使わない。</div>
+<pre><code>// ✅ 安全
+private final Object lock = new Object();
+synchronized (lock) { ... }
+
+// ❌ 危険
+private final Integer lock = 10;
+synchronized (lock) { ... }</code></pre>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q8 <span class="topic-tag">InterruptedException でフラグクリア</span></h3>
+<div class="qtext">次のコードで、別スレッドが t.interrupt() を呼んだ後の動作として正しいのは？</div>
+<pre><code>Thread t = new Thread(() -&gt; {
+    try {
+        Thread.sleep(10000);
+    } catch (InterruptedException e) {
+        System.out.println("interrupted");
+        // ★ここで interrupt 状態はどうなる？
+    }
+    System.out.println("isInterrupted: " + Thread.currentThread().isInterrupted());
+});
+t.start();
+Thread.sleep(100);
+t.interrupt();</code></pre>
+<div class="choices"><ol>
+<li>interrupted → isInterrupted: true</li>
+<li>interrupted → isInterrupted: false</li>
+<li>interrupted のみ（その後例外で停止）</li>
+<li>何も出力されない</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>InterruptedException がスローされた時点で、interrupt フラグはクリアされる。</p>
+<p>interrupt 状態を保ちたければ catch ブロックで再設定する：</p>
+<pre><code>try {
+    Thread.sleep(10000);
+} catch (InterruptedException e) {
+    Thread.currentThread().interrupt();  // ★フラグを立て直す
+}</code></pre>
+<div class="key-point"><strong>メンタルモデル:</strong> InterruptedException = フラグの消費。catch したら自分で再立てる。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q9 <span class="topic-tag">countDown 漏れの無限待機</span></h3>
+<div class="qtext">次のコードで main スレッドが永遠に await し続ける可能性があるのは、どんなケース？</div>
+<pre><code>CountDownLatch latch = new CountDownLatch(3);
+ExecutorService es = Executors.newFixedThreadPool(3);
+
+for (int i = 0; i &lt; 3; i++) {
+    es.submit(() -&gt; {
+        doWork();           // ★ここで例外が出たら？
+        latch.countDown();
+    });
+}
+latch.await();
+System.out.println("done");</code></pre>
+<div class="choices"><ol>
+<li>doWork() で例外が出ても latch は自動でカウントダウンされる</li>
+<li>doWork() で例外が出ると countDown() が呼ばれず、await() で永遠に待つ</li>
+<li>await() が IllegalStateException をスローする</li>
+<li>ExecutorService が自動で例外を握りつぶし、何事もなく終了する</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>countDown() を try-finally で囲んでないと、例外発生時にカウントダウンされず latch が永遠に開かない。</p>
+<pre><code>es.submit(() -&gt; {
+    try {
+        doWork();
+    } finally {
+        latch.countDown();   // ★例外でも必ず countDown
+    }
+});</code></pre>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q10 <span class="topic-tag">volatile なしの可視性</span></h3>
+<div class="qtext">次のコードで reader スレッドが value = 100 を見ることができない可能性があるのはどれ？</div>
+<pre><code>class Holder {
+    int value = 0;
+}
+Holder h = new Holder();
+
+// Writer スレッド
+new Thread(() -&gt; {
+    h.value = 100;
+}).start();
+
+// Reader スレッド
+new Thread(() -&gt; {
+    while (h.value != 100) { /* spin */ }
+    System.out.println("seen");
+}).start();</code></pre>
+<div class="choices"><ol>
+<li>必ず "seen" が出力される（最終的には見える）</li>
+<li>永遠に "seen" が出力されない可能性がある（JVM の最適化や CPU キャッシュにより）</li>
+<li>即座に "seen" が出力される</li>
+<li>例外がスローされる</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>volatile も synchronized も使ってないと、JVM の最適化や CPU キャッシュにより、別スレッドの書き込みが永遠に見えない可能性がある。</p>
+<pre><code>class Holder {
+    volatile int value = 0;   // ← 可視性を保証
+}</code></pre>
+</div>
+</div>
+</details>
+</article>
+
+<!-- ===================== Section 8 ===================== -->
+<h2 id="sec8" class="section-title">8. Stream API 標準</h2>
+
+<article class="question">
+<h3>Q1 <span class="topic-tag">Stream の遅延評価</span></h3>
+<div class="qtext">次のコードの出力は？</div>
+<pre><code>Stream.of(1, 2, 3, 4, 5)
+    .filter(n -&gt; {
+        System.out.print("F" + n);
+        return n % 2 == 0;
+    })
+    .forEach(n -&gt; System.out.print("E" + n));</code></pre>
+<div class="choices"><ol>
+<li>F1F2F3F4F5E2E4</li>
+<li>F1F2E2F3F4E4F5</li>
+<li>F1F2E2F3E2F4E4F5E4</li>
+<li>E2E4</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>Stream は遅延評価＋要素ごとにパイプラインを流す。1要素ずつ filter → forEach を辿る。</p>
+<pre><code>1: F1 (false、捨てる)
+2: F2 (true) → E2
+3: F3 (false)
+4: F4 (true) → E4
+5: F5 (false)</code></pre>
+<div class="key-point"><strong>本質:</strong> Stream は配列を一気に処理するんじゃなく、1要素ずつパイプラインを流していく。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q2 <span class="topic-tag">peek + count</span></h3>
+<div class="qtext">次のコードの出力は？</div>
+<pre><code>long count = Stream.of("a", "b", "c")
+    .peek(s -&gt; System.out.print(s))
+    .count();
+System.out.println();
+System.out.println(count);</code></pre>
+<div class="choices"><ol>
+<li>abc 改行 3</li>
+<li>改行 3（peek は終端操作じゃないので動かない）</li>
+<li>3 のみ</li>
+<li>コンパイルエラー</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: A（伝統的な答え）</div>
+<div class="explanation">
+<p>count() という終端操作があるので peek は実行される。</p>
+<p><strong>補足:</strong> Java 9+ では count() の最適化で要素数が確定的な Stream（Stream.of 等）に対して count() を呼ぶと upstream の peek が呼ばれない可能性がある。試験では「peek は動く」が標準的な答え。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q3 <span class="topic-tag">Optional チェーン</span></h3>
+<div class="qtext">次のコードの出力は？</div>
+<pre><code>Optional&lt;String&gt; opt = Optional.of("hello");
+String result = opt
+    .filter(s -&gt; s.length() &gt; 10)
+    .map(String::toUpperCase)
+    .orElse("default");
+System.out.println(result);</code></pre>
+<div class="choices"><ol>
+<li>HELLO</li>
+<li>hello</li>
+<li>default</li>
+<li>NullPointerException</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p><code>Optional.filter</code> で条件を満たさないと空の Optional になる。空に対して map しても何も起きず、<code>orElse("default")</code> で "default" が返る。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q4 <span class="topic-tag">groupingBy + counting</span></h3>
+<div class="qtext">次のコードの結果として正しいものは？</div>
+<pre><code>Map&lt;Integer, Long&gt; result = Stream.of("a", "bb", "ccc", "dd", "e")
+    .collect(Collectors.groupingBy(
+        String::length,
+        Collectors.counting()
+    ));
+System.out.println(result);</code></pre>
+<div class="choices"><ol>
+<li>{1=a,e, 2=bb,dd, 3=ccc}</li>
+<li>{1=2, 2=2, 3=1}</li>
+<li>{1=[a, e], 2=[bb, dd], 3=[ccc]}</li>
+<li>コンパイルエラー</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p><code>Collectors.counting()</code> を downstream に渡すと各グループの個数を Long で返す。</p>
+<p>groupingBy + counting は頻度カウントの定番イディオム。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q5 <span class="topic-tag">partitioningBy</span></h3>
+<div class="qtext">次のコードの結果として正しいものは？</div>
+<pre><code>Map&lt;Boolean, List&lt;Integer&gt;&gt; result = IntStream.rangeClosed(1, 10).boxed()
+    .collect(Collectors.partitioningBy(n -&gt; n % 2 == 0));
+System.out.println(result.get(true).size());</code></pre>
+<div class="choices"><ol>
+<li>0</li>
+<li>5</li>
+<li>10</li>
+<li>NullPointerException</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>partitioningBy は必ず true/false の2キーを持つ Map を返す。1〜10 で偶数は 2,4,6,8,10 の5個。</p>
+<p>groupingBy と違って、partitioningBy は空でもキーが必ず存在する（空リストが入る）。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q6 <span class="topic-tag">takeWhile</span></h3>
+<div class="qtext">次のコードの出力は？</div>
+<pre><code>Stream.of(1, 2, 3, 4, 1, 2, 3, 4)
+    .takeWhile(n -&gt; n &lt; 3)
+    .forEach(System.out::print);</code></pre>
+<div class="choices"><ol>
+<li>12</li>
+<li>1212</li>
+<li>124</li>
+<li>12341234</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: A</div>
+<div class="explanation">
+<p>takeWhile(p) は条件が初めて false になった時点で打ち切る。1, 2, 3, ... で 3 が来た瞬間に停止。それより後の要素は条件を満たしていても無視。</p>
+<ul>
+<li>filter = 全要素を見て条件を満たすものを残す → [1,2,1,2]</li>
+<li>takeWhile = 条件を満たさない要素が来たら打ち切り → [1,2]</li>
+<li>dropWhile = 条件を満たすうちはスキップ、最初に false になったところから取る → [3,4,1,2,3,4]</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q7 <span class="topic-tag">flatMap</span></h3>
+<div class="qtext">次のコードの出力は？</div>
+<pre><code>List&lt;List&lt;Integer&gt;&gt; lists = List.of(
+    List.of(1, 2),
+    List.of(3, 4),
+    List.of(5)
+);
+long count = lists.stream()
+    .flatMap(List::stream)
+    .filter(n -&gt; n &gt; 2)
+    .count();
+System.out.println(count);</code></pre>
+<div class="choices"><ol>
+<li>2</li>
+<li>3</li>
+<li>5</li>
+<li>コンパイルエラー</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>flatMap で List&lt;List&lt;Integer&gt;&gt; を Stream&lt;Integer&gt; に平坦化。元: [[1,2], [3,4], [5]] → flatMap 後: 1,2,3,4,5 → filter (&gt;2): 3,4,5 → count: 3。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q8 <span class="topic-tag">parallel findFirst は順序保証</span></h3>
+<div class="qtext">次のコードの動作として正しいものは？</div>
+<pre><code>Optional&lt;Integer&gt; first = IntStream.rangeClosed(1, 1000).boxed()
+    .parallel()
+    .filter(n -&gt; n &gt; 500)
+    .findFirst();
+System.out.println(first.orElse(-1));</code></pre>
+<div class="choices"><ol>
+<li>必ず 501 が出力される</li>
+<li>並列なので不定（501〜1000 のどれか）</li>
+<li>-1 が出力される</li>
+<li>コンパイルエラー</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: A</div>
+<div class="explanation">
+<p>findFirst は parallel でも順序保証がある。これが findAny との違いの本質。</p>
+<table>
+<tr><th>メソッド</th><th>順次</th><th>並列</th></tr>
+<tr><td>findFirst</td><td>最初</td><td>最初（順序保証）</td></tr>
+<tr><td>findAny</td><td>最初</td><td>任意（高速）</td></tr>
+</table>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q9 <span class="topic-tag">Collectors.joining 3引数</span></h3>
+<div class="qtext">次のコードの出力は？</div>
+<pre><code>String result = Stream.of("a", "b", "c")
+    .collect(Collectors.joining(",", "[", "]"));
+System.out.println(result);</code></pre>
+<div class="choices"><ol>
+<li>a,b,c</li>
+<li>[a,b,c]</li>
+<li>[a],[b],[c]</li>
+<li>[a,b,c,]</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>joining(delimiter, prefix, suffix) で、区切り＋前後に文字を付ける。</p>
+<table>
+<tr><th>呼び出し</th><th>出力例</th></tr>
+<tr><td>joining()</td><td>"abc"</td></tr>
+<tr><td>joining(",")</td><td>"a,b,c"</td></tr>
+<tr><td>joining(",", "[", "]")</td><td>"[a,b,c]"</td></tr>
+</table>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q10 <span class="topic-tag">Stream.iterate + limit</span></h3>
+<div class="qtext">次のコードの出力は？</div>
+<pre><code>Stream.iterate(1, n -&gt; n * 2)
+    .limit(5)
+    .forEach(n -&gt; System.out.print(n + " "));</code></pre>
+<div class="choices"><ol>
+<li>1 2 3 4 5</li>
+<li>2 4 8 16 32</li>
+<li>1 2 4 8 16</li>
+<li>無限ループ（limit は iterate に効かない）</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p>Stream.iterate(1, n -&gt; n*2) は無限ストリーム（1, 2, 4, 8, 16, ...）。limit(5) で最初の5個に切り詰める。</p>
+<pre><code>Stream.iterate(1, n -&gt; n * 2)       // 無限：1, 2, 4, 8, ...
+Stream.iterate(1, n -&gt; n &lt; 100, n -&gt; n * 2)  // Java 9+：条件付き有限
+Stream.generate(Math::random)        // 無限：ランダム</code></pre>
+<div class="key-point"><strong>本質:</strong> 無限ストリームは必ず limit / takeWhile で打ち切る。</div>
+</div>
+</div>
+</details>
+</article>
+
+<!-- ===================== Section 9 ===================== -->
+<h2 id="sec9" class="section-title">9. Stream API 仕上げ</h2>
+
+<article class="question">
+<h3>Q1 <span class="topic-tag">Collectors.toMap 重複キー</span></h3>
+<div class="qtext">次のコードの結果は？</div>
+<pre><code>Map&lt;Integer, String&gt; map = Stream.of("apple", "apricot", "banana", "blueberry")
+    .collect(Collectors.toMap(
+        String::length,
+        s -&gt; s
+    ));</code></pre>
+<div class="choices"><ol>
+<li>{5=apple, 7=apricot, 6=banana, 9=blueberry}</li>
+<li>IllegalStateException（重複キー）</li>
+<li>最後の値で上書きされる</li>
+<li>{5=[apple], 7=[apricot], 6=[banana], 9=[blueberry]}</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: A</div>
+<div class="explanation">
+<p>各単語の長さは全部違う（5/7/6/9）→ キーが重複しないので普通に通る。IllegalStateException は重複したときだけ。</p>
+<div class="key-point"><strong>罠:</strong> 「Collectors.toMap = 重複で例外」と反射で答えると間違える。実際に重複しているかコードで確認する。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q2 <span class="topic-tag">toMap マージ関数</span></h3>
+<div class="qtext">Q1 のエラーを回避するための正しい書き方は？</div>
+<pre><code>A. Collectors.toMap(String::length, s -&gt; s, (a, b) -&gt; a + "," + b)
+B. Collectors.toMap(String::length, s -&gt; s, HashMap::new)
+C. Collectors.groupingBy(String::length, s -&gt; s)
+D. Collectors.toMap(String::length, s -&gt; s).merge(...)</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: A</div>
+<div class="explanation">
+<p>第3引数の <code>BinaryOperator&lt;V&gt;</code> が「同じキーがあったときの値の合成方法」を決める。</p>
+<pre><code>// toMap の完全形（4引数版）
+Collectors.toMap(
+    keyMapper,        // 第1: キー抽出
+    valueMapper,      // 第2: 値抽出
+    mergeFunction,    // 第3: 重複時のマージ
+    mapSupplier       // 第4: Map の実装（TreeMap::new など）
+)</code></pre>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q3 <span class="topic-tag">IntStream に toList なし</span></h3>
+<div class="qtext">次のコードのうち、コンパイルエラーになるものは？</div>
+<pre><code>List&lt;String&gt; list = List.of("a", "bb", "ccc");
+
+A. int sum = list.stream().mapToInt(String::length).sum();
+B. Stream&lt;Integer&gt; s = list.stream().mapToInt(String::length).boxed();
+C. List&lt;Integer&gt; result = list.stream().mapToInt(String::length).toList();
+D. IntStream is = list.stream().mapToInt(String::length);</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p>IntStream に <code>toList()</code> メソッドは存在しない。<code>toList()</code> は Stream&lt;T&gt; の Java 16+ のメソッド。</p>
+<p>IntStream で List&lt;Integer&gt; を作りたいなら、<code>boxed()</code> で Stream&lt;Integer&gt; に変換してから toList()。または <code>toArray()</code> で <code>int[]</code> にする。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q4 <span class="topic-tag">Stream.concat</span></h3>
+<div class="qtext">次のコードの出力は？</div>
+<pre><code>Stream&lt;Integer&gt; s1 = Stream.of(1, 2, 3);
+Stream&lt;Integer&gt; s2 = Stream.of(4, 5, 6);
+long count = Stream.concat(s1, s2)
+    .filter(n -&gt; n &gt; 2)
+    .count();
+System.out.println(count);</code></pre>
+<div class="choices"><ol>
+<li>2</li>
+<li>3</li>
+<li>4</li>
+<li>6</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p>concat で [1,2,3,4,5,6]。filter &gt; 2 で [3,4,5,6]。count = 4。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q5 <span class="topic-tag">Optional.flatMap vs map</span></h3>
+<div class="qtext">次のコードの出力は？もし map を使ったらどうなる？</div>
+<pre><code>class User { Optional&lt;String&gt; getEmail() { return Optional.of("a@b.com"); } }
+
+Optional&lt;User&gt; user = Optional.of(new User());
+Optional&lt;String&gt; email = user.flatMap(User::getEmail);
+System.out.println(email.orElse("none"));</code></pre>
+<div class="choices"><ol>
+<li>flatMap → a@b.com、map → コンパイルエラー</li>
+<li>flatMap → a@b.com、map → Optional[a@b.com] のような表示</li>
+<li>両方とも a@b.com</li>
+<li>両方ともコンパイルエラー</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: A</div>
+<div class="explanation">
+<p>flatMap：「中身が Optional のときに、それを展開して1段の Optional にする」→ <code>Optional&lt;String&gt;</code>。</p>
+<p>map：「中身を変換するだけ、Optional に包む」→ <code>Optional&lt;Optional&lt;String&gt;&gt;</code>。</p>
+<p>map を使うと二重 Optional に対して orElse("none") を呼ぶと型不一致でコンパイルエラー（orElse の引数は Optional&lt;String&gt; でないと合わない）。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q6 <span class="topic-tag">groupingBy + TreeMap::new</span></h3>
+<div class="qtext">次のコードの結果として正しいものは？</div>
+<pre><code>TreeMap&lt;Integer, Set&lt;String&gt;&gt; result = Stream.of("apple", "ant", "banana", "berry")
+    .collect(Collectors.groupingBy(
+        String::length,
+        TreeMap::new,
+        Collectors.toSet()
+    ));
+System.out.println(result);</code></pre>
+<div class="choices"><ol>
+<li>{3=[ant], 5=[apple, berry], 6=[banana]}（キー昇順）</li>
+<li>{5=[apple, berry], 6=[banana], 3=[ant]}（挿入順）</li>
+<li>コンパイルエラー</li>
+<li>{3=ant, 5=[apple, berry], 6=banana}</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: A</div>
+<div class="explanation">
+<p>groupingBy の3引数版：classifier, mapFactory, downstream。<code>TreeMap::new</code> を渡すとキーが自動的にソートされる（TreeMap は SortedMap で自然順序）。</p>
+<table>
+<tr><th>Map 実装</th><th>キー順序</th></tr>
+<tr><td>HashMap</td><td>不定</td></tr>
+<tr><td>LinkedHashMap</td><td>挿入順</td></tr>
+<tr><td>TreeMap</td><td>キーの自然順序</td></tr>
+</table>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q7 <span class="topic-tag">reduce 3引数版</span></h3>
+<div class="qtext">次のコードの出力は？</div>
+<pre><code>List&lt;String&gt; list = List.of("a", "bb", "ccc");
+int totalLength = list.parallelStream()
+    .reduce(0,
+            (acc, s) -&gt; acc + s.length(),  // accumulator
+            Integer::sum);                  // combiner
+System.out.println(totalLength);</code></pre>
+<div class="choices"><ol>
+<li>6</li>
+<li>0</li>
+<li>3</li>
+<li>コンパイルエラー（List&lt;String&gt; から int は作れない）</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: A</div>
+<div class="explanation">
+<p>3引数版 reduce：</p>
+<ul>
+<li>identity = 単位元（0）</li>
+<li>accumulator = 各要素を蓄積する関数（並列時は部分集合ごとに動く）</li>
+<li>combiner = 部分結果を統合する関数（並列時のみ呼ばれる）</li>
+</ul>
+<div class="key-point"><strong>本質:</strong> accumulator の戻り値型と入力要素型が違う場合（int vs String）に3引数版が必要。2引数版だと型が合わない。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q8 <span class="topic-tag">IntStream.sum vs collect summingInt</span></h3>
+<div class="qtext">次の2つのコードの戻り値の型は？</div>
+<pre><code>int sum1 = IntStream.of(1, 2, 3).sum();
+??? sum2 = Stream.of(1, 2, 3).collect(Collectors.summingInt(Integer::intValue));</code></pre>
+<div class="choices"><ol>
+<li>int</li>
+<li>Integer</li>
+<li>OptionalInt</li>
+<li>Optional&lt;Integer&gt;</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<table>
+<tr><th>メソッド</th><th>戻り値</th></tr>
+<tr><td>IntStream.sum()</td><td>int（プリミティブ）</td></tr>
+<tr><td>Stream&lt;T&gt;.collect(Collectors.summingInt(...))</td><td>Integer（ラッパー）</td></tr>
+</table>
+<p>Collectors 系は必ずラッパー型。プリミティブ型は collect の戻り値にできない（ジェネリクスの制約）。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q9 <span class="topic-tag">Stream の lazy + 短絡</span></h3>
+<div class="qtext">次のコードの出力は？</div>
+<pre><code>Stream&lt;Integer&gt; s = Stream.of(1, 2, 3, 4, 5)
+    .filter(n -&gt; {
+        System.out.print("F");
+        return n &gt; 2;
+    })
+    .map(n -&gt; {
+        System.out.print("M");
+        return n * 10;
+    });
+// ★この時点でまだ何も出力されない
+
+System.out.println(s.findFirst().orElse(-1));</code></pre>
+<div class="choices"><ol>
+<li>FFFFFMMMMM30</li>
+<li>FMFMFMFMFM30</li>
+<li>FFFM30</li>
+<li>30</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p>Stream は lazy。findFirst で初めて評価開始＋短絡評価。</p>
+<pre><code>1: F (filter false)
+2: F (filter false)
+3: F (true) → M (3*10=30) → findFirst が確定、停止</code></pre>
+<p>4 と 5 は評価されない（findFirst で最初の一致が見つかった時点でストリーム終了）。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q10 <span class="topic-tag">IntStream.range + filter + boxed + toList</span></h3>
+<div class="qtext">次のコードの出力は？</div>
+<pre><code>List&lt;Integer&gt; result = IntStream.range(1, 6)
+    .filter(n -&gt; n % 2 == 1)
+    .boxed()
+    .toList();
+System.out.println(result);</code></pre>
+<div class="choices"><ol>
+<li>[1, 3, 5]</li>
+<li>[2, 4]</li>
+<li>[1, 2, 3, 4, 5]</li>
+<li>コンパイルエラー（IntStream に toList() は無い）</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: A</div>
+<div class="explanation">
+<pre><code>IntStream.range(1, 6)     // 1, 2, 3, 4, 5 （6は含まない）
+    .filter(n -&gt; n % 2 == 1)  // 奇数だけ: 1, 3, 5
+    .boxed()                   // Stream&lt;Integer&gt;
+    .toList();                 // [1, 3, 5]</code></pre>
+<table>
+<tr><th>メソッド</th><th>範囲</th></tr>
+<tr><td>IntStream.range(1, 6)</td><td>1〜5（5個）</td></tr>
+<tr><td>IntStream.rangeClosed(1, 6)</td><td>1〜6（6個）</td></tr>
+</table>
+<div class="key-point"><strong>注意:</strong> IntStream に boxed() を挟まないと toList() は使えない。boxed() で Stream&lt;Integer&gt; に変換してから toList()。</div>
+</div>
+</div>
+</details>
+</article>
+
+<!-- ===================== Section 10 ===================== -->
+<h2 id="sec10" class="section-title">10. モジュールコマンド</h2>
+
+<article class="question">
+<h3>Q1 <span class="topic-tag">javac --module-source-path</span></h3>
+<div class="qtext">次のディレクトリ構造でモジュール <code>com.app</code> をコンパイルする正しいコマンドは？</div>
+<pre><code>project/
+└── src/
+    └── com.app/
+        ├── module-info.java
+        └── com/app/Main.java</code></pre>
+<div class="choices"><ol>
+<li>javac --module-path src -m com.app -d mods</li>
+<li>javac --module-source-path src -m com.app -d mods/com.app</li>
+<li>javac --module-source-path src -m com.app -d mods</li>
+<li>javac -p src -d mods com.app</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p><code>--module-source-path</code> を使うときは <code>-d</code> に <strong>親ディレクトリ</strong> を指定。javac が自動で <code>mods/com.app/</code> を作る。</p>
+<p>B のように <code>mods/com.app</code> まで書くと <code>mods/com.app/com.app/</code> と二重ネストの罠。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q2 <span class="topic-tag">複数モジュール一括</span></h3>
+<div class="qtext"><code>com.greet</code> と <code>com.app</code> を一括コンパイルする正しいコマンドは？</div>
+<div class="choices"><ol>
+<li>javac --module-source-path src -m com.greet com.app -d mods</li>
+<li>javac --module-source-path src -m com.greet,com.app -d mods</li>
+<li>javac --module-source-path src --add-modules com.greet,com.app -d mods</li>
+<li>javac src/com.greet src/com.app -d mods</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>複数モジュールは <strong>カンマ区切り（スペースなし）</strong>。<code>--add-modules</code> は javac じゃなく java の実行時オプション。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q3 <span class="topic-tag">モジュール実行</span></h3>
+<div class="qtext">次のディレクトリ構造で <code>com.app.Main</code> を実行する正しいコマンドは？</div>
+<pre><code>mods/
+├── com.greet/
+│   └── ...
+└── com.app/
+    ├── module-info.class
+    └── com/app/Main.class</code></pre>
+<div class="choices"><ol>
+<li>java -p mods com.app.Main</li>
+<li>java -cp mods com.app.Main</li>
+<li>java -p mods -m com.app/com.app.Main</li>
+<li>java --module-source-path mods -m com.app</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p><code>-p</code> でモジュールパス、<code>-m</code> で「モジュール/メインクラス」。java コマンドに <code>--module-source-path</code> は存在しない。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q4 <span class="topic-tag">modular JAR 作成</span></h3>
+<div class="qtext"><code>mods/com.app/</code> の内容を <code>com.app.jar</code> として、メインクラスを <code>com.app.Main</code> に指定する正しい jar コマンドは？</div>
+<div class="choices"><ol>
+<li>jar --create --file=com.app.jar -C mods/com.app .</li>
+<li>jar --create --file=com.app.jar --main-class=com.app.Main -C mods/com.app .</li>
+<li>jar --create --file=com.app.jar --module=com.app --main=Main -C mods/com.app .</li>
+<li>jar --create com.app.jar mods/com.app</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<table>
+<tr><th>オプション</th><th>短縮形</th><th>意味</th></tr>
+<tr><td>--create</td><td>-c</td><td>新規作成</td></tr>
+<tr><td>--file=&lt;name&gt;</td><td>-f</td><td>出力 JAR ファイル名</td></tr>
+<tr><td>--main-class=&lt;class&gt;</td><td>-e</td><td>メインクラス記録</td></tr>
+<tr><td>-C &lt;dir&gt; .</td><td></td><td>dir に移動して中身を JAR に</td></tr>
+</table>
+<div class="key-point"><strong>注意:</strong> 最後の <code>.</code> を忘れない。「カレント＝dir の中全部」という意味。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q5 <span class="topic-tag">JAR の実行</span></h3>
+<div class="qtext">メインクラスが記録済みの <code>dist/com.app.jar</code> を実行する正しいコマンドは（複数選択可）？</div>
+<pre><code>A. java -jar dist/com.app.jar
+B. java -p dist -m com.app
+C. java -p dist -m com.app/com.app.Main
+D. java -cp dist/com.app.jar com.app.Main
+E. java --module-path dist --module com.app</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B, C, E（A, D も classpath なら可）</div>
+<div class="explanation">
+<p><strong>モジュールとして実行</strong>：B, C, E</p>
+<ul>
+<li>B: 短縮形（main-class 省略可）</li>
+<li>C: 明示指定</li>
+<li>E: B と同じ（長い形）</li>
+</ul>
+<p><strong>classpath として実行</strong>：A, D（無名モジュール扱い、モジュールシステムの恩恵なし）</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q6 <span class="topic-tag">jlink 基本</span></h3>
+<div class="qtext">コンパイル済みモジュール <code>com.app</code> から <code>myapp</code> という名前のカスタムランタイムを作る正しいコマンドは？</div>
+<div class="choices"><ol>
+<li>jlink --module-path libs --add-modules com.app --output myapp</li>
+<li>jlink -p libs com.app --output myapp</li>
+<li>jlink --module-path "$JAVA_HOME/jmods:libs" --add-modules com.app --output myapp</li>
+<li>jlink --modules com.app --output myapp</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p><code>--module-path</code> には <strong>JDKの jmods も含める必要がある</strong>。<code>java.base</code> などのコアモジュールが取れないと jlink は動かない。A の libs だけだとエラー。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q7 <span class="topic-tag">jlink --launcher</span></h3>
+<div class="qtext">jlink で作ったランタイムに <code>start</code> というコマンドで <code>com.app.Main</code> を起動できるランチャーを作成する正しいオプションは？</div>
+<div class="choices"><ol>
+<li>--launcher start com.app/com.app.Main</li>
+<li>--launcher=start:com.app:com.app.Main</li>
+<li>--launcher start=com.app/com.app.Main</li>
+<li>--launcher --name=start --module=com.app --main=com.app.Main</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p><code>--launcher 名前=モジュール/メインクラス</code> の形式。イコールで区切り、スラッシュでクラス指定。これで <code>myapp/bin/start</code> というスクリプトが作られる。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q8 <span class="topic-tag">jlink 既存ディレクトリ</span></h3>
+<div class="qtext">次の jlink コマンドを実行したとき、<code>myapp</code> ディレクトリが既に存在する場合の挙動は？</div>
+<pre><code>jlink --module-path libs --add-modules com.app --output myapp</code></pre>
+<div class="choices"><ol>
+<li>既存ディレクトリの内容を上書きして成功</li>
+<li><code>--output: directory already exists</code> のエラーで失敗</li>
+<li>警告だけ表示されて成功</li>
+<li>既存ディレクトリの中に追加で書き込まれる</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>jlink <code>--output</code> は <strong>既存ディレクトリを拒否</strong>。実務では <code>rm -rf myapp && jlink ...</code> が定番。</p>
+<div class="key-point"><strong>対比:</strong> javac <code>-d</code> は上書き、jar も上書き、jlink だけが既存拒否。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q9 <span class="topic-tag">自動モジュールと jlink</span></h3>
+<div class="qtext">次のうち、jlink について正しい説明は（複数選択可）？</div>
+<pre><code>A. 自動モジュール（automatic module）を含めることができる
+B. 自動モジュールを含めようとするとエラーになる
+C. JDK の jmods を --module-path に含める必要がある
+D. --add-modules で指定したモジュールの依存先は自動で解決される
+E. 無名モジュール（classpath 上のコード）も含められる</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B, C, D</div>
+<div class="explanation">
+<ul>
+<li>A: ❌ 自動モジュールは含められない</li>
+<li>B: ✅ 自動モジュールを含めようとするとエラー</li>
+<li>C: ✅ JDK の jmods は必須</li>
+<li>D: ✅ 依存先は自動解決</li>
+<li>E: ❌ 無名モジュールも不可</li>
+</ul>
+<div class="key-point"><strong>本質:</strong> jlink は「完全モジュール化された世界」専用ツール。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q10 <span class="topic-tag">オプションの役割</span></h3>
+<div class="qtext">次のオプションの説明として正しい組み合わせは？</div>
+<pre><code>①  --module-path      ② --module-source-path     ③ --add-modules</code></pre>
+<div class="choices"><ol>
+<li>① ソースのルート / ② コンパイル済みモジュール / ③ 追加モジュール</li>
+<li>① コンパイル済みモジュール / ② ソースのルート / ③ 追加モジュール</li>
+<li>① 出力先 / ② ソースのルート / ③ コンパイル対象</li>
+<li>① コンパイル済みモジュール / ② 出力先 / ③ メインモジュール</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<table>
+<tr><th>オプション</th><th>役割</th></tr>
+<tr><td>--module-path / -p</td><td>コンパイル済みモジュールの探索場所（javac/java/jlink）</td></tr>
+<tr><td>--module-source-path</td><td>ソースコードのルート（javac専用）</td></tr>
+<tr><td>--add-modules</td><td>追加で読み込むモジュール（javac/java/jlink）</td></tr>
+</table>
+<div class="key-point"><strong>覚え方:</strong> "source" が付いてるのが入力（ソース）、付いてないのがコンパイル済み。</div>
+</div>
+</div>
+</details>
+</article>
+
+<!-- ===================== Section 11 ===================== -->
+<h2 id="sec11" class="section-title">11. ジェネリクス・型消去</h2>
+
+<article class="question">
+<h3>Q1 <span class="topic-tag">型の非変性</span></h3>
+<div class="qtext">次のコードはコンパイルできるか？</div>
+<pre><code>List&lt;String&gt; strs = new ArrayList&lt;&gt;();
+List&lt;Object&gt; objs = strs;</code></pre>
+<div class="choices"><ol>
+<li>コンパイル成功、何も問題ない</li>
+<li>コンパイルエラー（型パラメータは非変）</li>
+<li>コンパイル成功、実行時に ClassCastException</li>
+<li>警告だけ出てコンパイル成功</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p><code>String</code> は <code>Object</code> のサブタイプだが、<code>List&lt;String&gt;</code> は <code>List&lt;Object&gt;</code> のサブタイプでない（非変性）。</p>
+<p>もし許されたら、<code>objs.add(123)</code> で Integer が入って <code>strs.get(0)</code> で ClassCastException になるので、Java はコンパイル時に弾く。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q2 <span class="topic-tag">? extends T で add</span></h3>
+<div class="qtext">次のコードのうち、コンパイルエラーになるものは（複数選択可）？</div>
+<pre><code>List&lt;? extends Number&gt; list = new ArrayList&lt;Integer&gt;();
+
+A. Number n = list.get(0);
+B. Object o = list.get(0);
+C. Integer i = list.get(0);
+D. list.add(1);
+E. list.add(null);</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C, D</div>
+<div class="explanation">
+<ul>
+<li>A: ✅ 上限の Number として読める</li>
+<li>B: ✅ Number のスーパー Object としても読める</li>
+<li>C: ❌ 実体が何か分からないのでサブクラスとして取れない</li>
+<li>D: ❌ 実体が何か分からないので何も add できない</li>
+<li>E: ✅ null だけは例外的にOK</li>
+</ul>
+<div class="key-point"><strong>PECS:</strong> Producer Extends - 読み取り専用に近い動作。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q3 <span class="topic-tag">? super T で add/get</span></h3>
+<div class="qtext">次のコードのうち、コンパイルエラーになるものは（複数選択可）？</div>
+<pre><code>List&lt;? super Integer&gt; list = new ArrayList&lt;Number&gt;();
+
+A. list.add(1);
+B. list.add(new Integer(2));
+C. list.add(new Number());
+D. Integer i = list.get(0);
+E. Object o = list.get(0);</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C, D</div>
+<div class="explanation">
+<ul>
+<li>A: ✅ Integer を add 可</li>
+<li>B: ✅ Integer の子クラスのインスタンスも add 可</li>
+<li>C: ❌ Number は Integer の <strong>スーパー</strong>、Integer のサブじゃないので add 不可</li>
+<li>D: ❌ 実体が Number/Object かもしれないので Integer で取れない</li>
+<li>E: ✅ Object としてだけ取れる</li>
+</ul>
+<div class="key-point"><strong>PECS:</strong> Consumer Super - 書き込み専用に近い動作。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q4 <span class="topic-tag">PECS の判定</span></h3>
+<div class="qtext">「Stream の各要素を List に追加するメソッド」の正しいシグネチャは？</div>
+<pre><code>A. void copyTo(Stream&lt;? extends T&gt; src, List&lt;? extends T&gt; dst)
+B. void copyTo(Stream&lt;? super T&gt; src, List&lt;? super T&gt; dst)
+C. void copyTo(Stream&lt;? extends T&gt; src, List&lt;? super T&gt; dst)
+D. void copyTo(Stream&lt;? super T&gt; src, List&lt;? extends T&gt; dst)</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<ul>
+<li><strong>src は読む側（Producer）</strong> → <code>? extends T</code></li>
+<li><strong>dst は書く側（Consumer）</strong> → <code>? super T</code></li>
+</ul>
+<p>これが PECS（Producer Extends, Consumer Super）の典型例。<code>Collections.copy</code> も同じシグネチャ：</p>
+<pre><code>public static &lt;T&gt; void copy(List&lt;? super T&gt; dest, List&lt;? extends T&gt; src)</code></pre>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q5 <span class="topic-tag">型消去とインスタンス化</span></h3>
+<div class="qtext">次のコードのうち、コンパイルエラーになるものは（複数選択可）？</div>
+<pre><code>class Box&lt;T&gt; {
+    A. T value;
+    B. T[] arr = new T[10];
+    C. List&lt;T&gt; list = new ArrayList&lt;T&gt;();
+    D. static T staticValue;
+    E. void m(T t) { System.out.println(t); }
+}</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B, D</div>
+<div class="explanation">
+<ul>
+<li>A: ✅ インスタンスフィールドはOK</li>
+<li>B: ❌ <code>new T[10]</code> は型消去で T が分からないため不可</li>
+<li>C: ✅ <code>new ArrayList&lt;T&gt;()</code> はOK（内部的には raw だが）</li>
+<li>D: ❌ static フィールドに型パラメータは使えない（インスタンスごとに違う型なので）</li>
+<li>E: ✅ メソッドの引数はOK</li>
+</ul>
+<div class="key-point"><strong>型消去の制約:</strong> <code>new T[]</code> / static で T / <code>instanceof T</code> / catch&lt;T&gt; / オーバーロード衝突 など。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q6 <span class="topic-tag">オーバーロード衝突</span></h3>
+<div class="qtext">次のクラスはコンパイルできるか？</div>
+<pre><code>class Foo {
+    void f(List&lt;String&gt; list) { }
+    void f(List&lt;Integer&gt; list) { }
+}</code></pre>
+<div class="choices"><ol>
+<li>コンパイル成功</li>
+<li>コンパイルエラー（型消去後に同じシグネチャになる）</li>
+<li>警告だけ出てコンパイル成功</li>
+<li>実行時に ClassCastException</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>型消去後はどちらも <code>void f(List list)</code> になり、メソッドシグネチャが衝突する。だからコンパイルエラー。</p>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q7 <span class="topic-tag">instanceof と型パラメータ</span></h3>
+<div class="qtext">次のコードのうち、コンパイルできるものは（複数選択可）？</div>
+<pre><code>Object obj = ...;
+
+A. if (obj instanceof List) { }
+B. if (obj instanceof List&lt;String&gt;) { }
+C. if (obj instanceof List&lt;?&gt;) { }
+D. if (obj instanceof ArrayList&lt;Integer&gt;) { }</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: A, C</div>
+<div class="explanation">
+<ul>
+<li>A: ✅ raw type は OK（警告は出る）</li>
+<li>B: ❌ 型パラメータ付きは不可（型消去で実行時に判別できない）</li>
+<li>C: ✅ ワイルドカード <code>?</code> は OK</li>
+<li>D: ❌ 型パラメータ付きは不可</li>
+</ul>
+<div class="key-point"><strong>本質:</strong> 実行時には型消去で <code>List&lt;String&gt;</code> と <code>List&lt;Integer&gt;</code> が区別できないので、具体的な型パラメータでの instanceof は不可。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q8 <span class="topic-tag">raw type の挙動</span></h3>
+<div class="qtext">次のコードを実行した結果は？</div>
+<pre><code>List&lt;String&gt; strs = new ArrayList&lt;&gt;();
+strs.add("hello");
+List raw = strs;
+raw.add(123);
+String s = strs.get(1);</code></pre>
+<div class="choices"><ol>
+<li>"hello" のみ表示</li>
+<li>コンパイルエラー（raw type は使用不可）</li>
+<li>実行時に ClassCastException</li>
+<li>"123" が表示</li>
+</ol></div>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p>型消去で <code>strs</code> も <code>raw</code> も実行時は同じ List。raw 経由で Integer の <code>123</code> が入る（コンパイル時には警告のみ）。<code>strs.get(1)</code> で取り出すとき暗黙のキャストが入って <code>ClassCastException</code>。</p>
+<div class="key-point"><strong>教訓:</strong> raw type を使うと型安全性が壊れる。後方互換のために残ってるだけで、新規コードでは絶対に使わない。</div>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q9 <span class="topic-tag">境界のあるジェネリック型</span></h3>
+<div class="qtext">次のメソッド宣言として正しいものは？</div>
+<pre><code>「T は Number のサブクラスかつ Comparable&lt;T&gt; を実装している」と制約したい
+
+A. &lt;T extends Number, Comparable&lt;T&gt;&gt;
+B. &lt;T extends Number & Comparable&lt;T&gt;&gt;
+C. &lt;T extends Number | Comparable&lt;T&gt;&gt;
+D. &lt;T super Number & Comparable&lt;T&gt;&gt;</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: B</div>
+<div class="explanation">
+<p>複数の境界を指定するときは <strong><code>&</code> で連結</strong>。</p>
+<pre><code>&lt;T extends Number & Comparable&lt;T&gt;&gt;</code></pre>
+<ul>
+<li>クラスは最大1つ、インターフェースは複数可</li>
+<li>クラスを書く場合は最初に書く</li>
+<li>カンマじゃない、<code>|</code> でもない</li>
+<li>型パラメータの境界に <code>super</code> は使えない（<code>extends</code> のみ）</li>
+</ul>
+</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>Q10 <span class="topic-tag">ワイルドカード unbounded</span></h3>
+<div class="qtext">次のコードのうち、コンパイルエラーになるものは？</div>
+<pre><code>List&lt;?&gt; list = new ArrayList&lt;String&gt;();
+
+A. int size = list.size();
+B. Object o = list.get(0);
+C. list.add("hello");
+D. list.add(null);
+E. boolean b = list.isEmpty();</code></pre>
+<details><summary>解答・解説</summary>
+<div class="answer-body">
+<div class="answer-tag">正解: C</div>
+<div class="explanation">
+<p><code>List&lt;?&gt;</code>（unbounded ワイルドカード）は「型が何か不明」を意味する。</p>
+<ul>
+<li>A, E: ✅ 型に依存しない操作（size, isEmpty）はOK</li>
+<li>B: ✅ Object としてだけ取り出せる</li>
+<li>C: ❌ 何の型を受け入れるか分からないので add 不可</li>
+<li>D: ✅ null だけは例外的にOK</li>
+</ul>
+<table>
+<tr><th>ワイルドカード</th><th>用途</th></tr>
+<tr><td>&lt;?&gt;</td><td>型を気にしない読み取り</td></tr>
+<tr><td>&lt;? extends T&gt;</td><td>Producer（読む）</td></tr>
+<tr><td>&lt;? super T&gt;</td><td>Consumer（書く）</td></tr>
+</table>
+</div>
+</div>
+</details>
+</article>
+
+<footer>
+  作成日: 2026年5月26日 / Java Gold (1Z0-829) 試験対策<br>
+  全110問 - 11セクション
+</footer>
+
+</body>
+</html>
