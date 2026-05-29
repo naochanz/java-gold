@@ -214,7 +214,7 @@
 
 <header>
   <h1>Java Gold 確認テスト集</h1>
-  <div class="meta">作成日: 2026年5月26日 / 全110問（11セクション）</div>
+  <div class="meta">作成日: 2026年5月26日 / 全120問+12問（12セクション）</div>
   <div class="meta" style="margin-top:0.5rem">クリックで解説を開閉</div>
 </header>
 
@@ -232,6 +232,7 @@
     <li><a href="#sec9">Stream API 仕上げ（10問）</a></li>
     <li><a href="#sec10">モジュールコマンド（10問）</a></li>
     <li><a href="#sec11">ジェネリクス・型消去（10問）</a></li>
+    <li><a href="#sec12">モジュールコマンド空書き（12問）</a></li>
   </ol>
 </nav>
 
@@ -3006,9 +3007,257 @@ E. boolean b = list.isEmpty();</code></pre>
 </details>
 </article>
 
+<!-- ===================== Section 12 ===================== -->
+<h2 id="sec12" class="section-title">12. モジュールコマンド空書き</h2>
+
+<p style="background:#fffbf0;border-left:4px solid #ed8936;padding:1rem 1.2rem;margin-bottom:1.5rem;border-radius:4px;">
+ファイル構成とお題を見て、コマンドを<strong>空で書く</strong>練習。試験前日に通しで解いて、反射で書けるレベルを目指す。
+</p>
+
+<article class="question">
+<h3>課題1 <span class="topic-tag">ファイル明示・単一</span></h3>
+<div class="qtext">
+<p><strong>ファイル構成</strong></p>
+<pre><code>project/
+└── src/
+    └── com.greet/
+        ├── module-info.java
+        └── com/greet/Hello.java</code></pre>
+<p><strong>お題</strong>：<code>module-info.java</code> と <code>Hello.java</code> の2ファイルを明示指定してコンパイル、出力先 <code>mods/com.greet/</code>。</p>
+</div>
+<details><summary>解答</summary>
+<div class="answer-body">
+<pre><code>javac -d mods/com.greet \
+      src/com.greet/module-info.java \
+      src/com.greet/com/greet/Hello.java</code></pre>
+<div class="key-point"><strong>ポイント:</strong> ファイル明示方式では <code>-d</code> はモジュール直下を指定（mods/com.greet）。<code>--module-source-path</code> は使わない。</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>課題2 <span class="topic-tag">ファイル明示・複数</span></h3>
+<div class="qtext">
+<p><strong>ファイル構成</strong></p>
+<pre><code>project/
+└── src/
+    └── com.greet/
+        ├── module-info.java
+        ├── com/greet/Hello.java
+        ├── com/greet/Bye.java
+        └── com/greet/util/Helper.java</code></pre>
+<p><strong>お題</strong>：4ファイル全部を明示指定してコンパイル、出力先 <code>mods/com.greet/</code>。</p>
+</div>
+<details><summary>解答</summary>
+<div class="answer-body">
+<pre><code>javac -d mods/com.greet \
+      src/com.greet/module-info.java \
+      src/com.greet/com/greet/Hello.java \
+      src/com.greet/com/greet/Bye.java \
+      src/com.greet/com/greet/util/Helper.java</code></pre>
+<div class="key-point"><strong>ポイント:</strong> ファイルが増えると手動列挙が大変。これが <code>--module-source-path</code> 方式に切り替える動機。</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>課題3 <span class="topic-tag">--module-source-path 単一</span></h3>
+<div class="qtext">
+<p><strong>ファイル構成</strong>（課題2と同じ）</p>
+<p><strong>お題</strong>：同じファイル群を <code>--module-source-path</code> 方式でコンパイル。出力先 <code>mods/</code>。</p>
+</div>
+<details><summary>解答</summary>
+<div class="answer-body">
+<pre><code>javac -d mods --module-source-path src -m com.greet</code></pre>
+<div class="key-point"><strong>3点セット:</strong> <code>-d 親</code> + <code>--module-source-path ソースルート</code> + <code>-m モジュール名</code>。出力先は <code>mods/com.greet/</code> が自動作成される。</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>課題4 <span class="topic-tag">複数モジュール</span></h3>
+<div class="qtext">
+<p><strong>ファイル構成</strong></p>
+<pre><code>project/
+└── src/
+    ├── com.greet/
+    │   ├── module-info.java
+    │   └── com/greet/Hello.java
+    └── com.app/
+        ├── module-info.java
+        └── com/app/Main.java</code></pre>
+<p><strong>お題</strong>：2モジュールは互いに依存なし。両方を一括コンパイル、出力先 <code>mods/</code>。</p>
+</div>
+<details><summary>解答</summary>
+<div class="answer-body">
+<pre><code>javac -d mods --module-source-path src -m com.greet,com.app</code></pre>
+<div class="key-point"><strong>罠:</strong> 複数モジュールは<strong>カンマ区切り（スペース禁止）</strong>。スペースで区切るとオプションの引数として認識されない。</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>課題5 <span class="topic-tag">依存自動解決</span></h3>
+<div class="qtext">
+<p><strong>ファイル構成</strong>（課題4と同じ）</p>
+<p><strong>条件</strong>：<code>com.app</code> は <code>com.greet</code> を <code>requires</code> している。<strong>com.app だけを <code>-m</code> で指定</strong>して両方コンパイルされるようにする。</p>
+</div>
+<details><summary>解答</summary>
+<div class="answer-body">
+<pre><code>javac -d mods --module-source-path src -m com.app</code></pre>
+<div class="key-point"><strong>本質:</strong> javac は <code>-m</code> で指定したモジュールから依存を辿って、必要なモジュールを自動コンパイルする。エントリポイントだけ指定すれば芋づる。</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>課題6 <span class="topic-tag">モジュール実行</span></h3>
+<div class="qtext">
+<p><strong>ファイル構成</strong></p>
+<pre><code>mods/
+├── com.greet/
+│   └── ...（コンパイル済み）
+└── com.app/
+    ├── module-info.class
+    └── com/app/Main.class</code></pre>
+<p><strong>お題</strong>：<code>com.app.Main</code> を実行。</p>
+</div>
+<details><summary>解答</summary>
+<div class="answer-body">
+<pre><code>java -p mods -m com.app/com.app.Main</code></pre>
+<div class="key-point"><strong>3点セット:</strong> <code>-p モジュールパス</code> + <code>-m モジュール名/クラスFQCN</code>。java では <strong>スラッシュ区切り</strong>。</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>課題7 <span class="topic-tag">JAR作成（メインクラスなし）</span></h3>
+<div class="qtext">
+<p><strong>ファイル構成</strong></p>
+<pre><code>mods/
+└── com.app/
+    ├── module-info.class
+    └── com/app/Main.class
+
+libs/        ← この下に jar を作る</code></pre>
+<p><strong>お題</strong>：<code>mods/com.app/</code> の内容を <code>libs/com.app.jar</code> として JAR 化。メインクラスは指定しない。</p>
+</div>
+<details><summary>解答</summary>
+<div class="answer-body">
+<pre><code>jar --create --file=libs/com.app.jar -C mods/com.app .</code></pre>
+<div class="key-point"><strong>ポイント:</strong> 末尾の <code>.</code> を忘れない。「<code>-C ディレクトリ .</code>」で「そのディレクトリに移動して中身全部を JAR に入れる」。</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>課題8 <span class="topic-tag">JAR作成（メインクラス記録）</span></h3>
+<div class="qtext">
+<p><strong>ファイル構成</strong>（課題7と同じ）</p>
+<p><strong>お題</strong>：<code>libs/com.app.jar</code> に JAR 化、メインクラスを <code>com.app.Main</code> として記録。</p>
+</div>
+<details><summary>解答</summary>
+<div class="answer-body">
+<pre><code>jar --create --file=libs/com.app.jar --main-class=com.app.Main -C mods/com.app .</code></pre>
+<div class="key-point"><strong>罠:</strong> <code>--main-class</code> は<strong>クラスFQCN（ドット区切り）</strong>。<code>com.app/Main</code> のスラッシュ書きは <code>java -m</code> 専用。</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>課題9 <span class="topic-tag">JAR実行（短縮）</span></h3>
+<div class="qtext">
+<p><strong>ファイル構成</strong></p>
+<pre><code>libs/
+└── com.app.jar  ← メインクラス記録済み</code></pre>
+<p><strong>お題</strong>：上の JAR を「モジュールとして」実行。メインクラスは JAR に記録されているので<strong>明示せず短縮形</strong>で。</p>
+</div>
+<details><summary>解答</summary>
+<div class="answer-body">
+<pre><code>java -p libs -m com.app</code></pre>
+<div class="key-point"><strong>ポイント:</strong> <code>-m</code> の値はモジュール名だけでOK（メインクラスはマニフェストから読まれる）。<code>-p</code> は libs（jar の場所）。</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>課題10 <span class="topic-tag">jlink 基本</span></h3>
+<div class="qtext">
+<p><strong>ファイル構成</strong></p>
+<pre><code>libs/
+└── com.app.jar     ← メインクラス記録済み
+
+$JAVA_HOME/jmods/   ← JDK のモジュール置き場</code></pre>
+<p><strong>お題</strong>：<code>com.app</code> を含むカスタムランタイムを <code>myapp</code> ディレクトリに作成。</p>
+</div>
+<details><summary>解答</summary>
+<div class="answer-body">
+<pre><code>jlink --module-path "$JAVA_HOME/jmods:libs" \
+      --add-modules com.app \
+      --output myapp</code></pre>
+<div class="key-point"><strong>3点セット:</strong> <code>--module-path</code>（JDK の jmods 含めて <strong>:区切り</strong>）+ <code>--add-modules</code>（モジュール<strong>名</strong>）+ <code>--output</code>（既存ディレクトリ NG）。</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>課題11 <span class="topic-tag">jlink + ランチャー</span></h3>
+<div class="qtext">
+<p><strong>お題</strong>：課題10 に、「<code>start</code> というコマンド名で <code>com.app/com.app.Main</code> を起動できるランチャー」を追加。</p>
+</div>
+<details><summary>解答</summary>
+<div class="answer-body">
+<pre><code>jlink --module-path "$JAVA_HOME/jmods:libs" \
+      --add-modules com.app \
+      --output myapp \
+      --launcher start=com.app/com.app.Main</code></pre>
+<div class="key-point"><strong>構文:</strong> <code>--launcher 名前=モジュール/メインクラスFQCN</code>。これで <code>myapp/bin/start</code> というシェルスクリプトが作られる。</div>
+</div>
+</details>
+</article>
+
+<article class="question">
+<h3>課題12 <span class="topic-tag">ランチャー実行</span></h3>
+<div class="qtext">
+<p><strong>ファイル構成</strong></p>
+<pre><code>myapp/
+├── bin/
+│   ├── java
+│   └── start    ← --launcher で作ったスクリプト
+└── ...</code></pre>
+<p><strong>お題</strong>：ランチャー <code>start</code> を使ってアプリを実行。</p>
+</div>
+<details><summary>解答</summary>
+<div class="answer-body">
+<pre><code>./myapp/bin/start</code></pre>
+<div class="key-point"><strong>注意:</strong> <code>java</code> を頭に付けない。ランチャーは内部で java を呼ぶシェルスクリプトなので、直接実行するだけでOK。</div>
+</div>
+</details>
+</article>
+
+<article class="question" style="background:#e6fffa;border:2px solid #38b2ac;">
+<h3>暗記カンペ <span class="topic-tag">頻出ポイント</span></h3>
+<details open><summary>展開（試験当日朝に見直し用）</summary>
+<div class="answer-body">
+<table>
+<tr><th>罠</th><th>正解</th></tr>
+<tr><td>ファイル明示の <code>-d</code></td><td>モジュール直下（mods/com.app）</td></tr>
+<tr><td><code>--module-source-path</code> の <code>-d</code></td><td>親（mods）</td></tr>
+<tr><td>複数モジュール</td><td>カンマ区切り、<strong>スペース禁止</strong></td></tr>
+<tr><td>jar の <code>--main-class</code></td><td>クラスFQCN（<strong>ドット</strong>）</td></tr>
+<tr><td>java の <code>-m</code></td><td>モジュール<strong>/</strong>クラスFQCN（<strong>スラッシュ</strong>）</td></tr>
+<tr><td>jlink の <code>--module-path</code></td><td><strong>:</strong>区切り（Unix）</td></tr>
+<tr><td>jlink の <code>--add-modules</code></td><td>モジュール名（<strong>カンマ区切り</strong>、ファイル名じゃない）</td></tr>
+<tr><td>jlink の <code>--output</code></td><td><strong>既存ディレクトリ NG</strong></td></tr>
+<tr><td>ランチャー実行</td><td><code>./myapp/bin/start</code>（<strong>java 不要</strong>）</td></tr>
+</table>
+</div>
+</details>
+</article>
+
 <footer>
-  作成日: 2026年5月26日 / Java Gold (1Z0-829) 試験対策<br>
-  全110問 - 11セクション
+  作成日: 2026年5月26日 / Java Gold (1Z0-829 / 1Z0-826-JPN) 試験対策<br>
+  全120問 + 空書き12問 - 12セクション
 </footer>
 
 </body>
